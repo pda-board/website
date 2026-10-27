@@ -20,11 +20,11 @@ Palette and type follow the TU/e house style (red `#C72125`, navy `#0E2470`,
 Lato body). Urbanist stands in for Gilroy (TU/e's heading font, which is not
 freely licensed). Dark mode follows the visitor's system setting.
 
-## Placeholders to replace before going live
+## Board photos
 
-| Where | What |
-|---|---|
-| Board | Femke Verheggen: photo and department (photos live in `img/board/`, 480×480 JPEG) |
+Photos live in `img/board/` as 480×480 JPEGs, named after the person
+(`firstname-lastname.jpg`). Most come from the TU/e research portal; Femke
+Verheggen's is from her LinkedIn profile.
 
 ## Deploying on GitHub Pages
 
