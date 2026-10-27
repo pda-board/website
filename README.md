@@ -9,10 +9,10 @@ Example website for the TU/e Postdoc Association (PDA). A single self-contained
 - **About**: the three pillars (Connect / Grow / Be heard) and the mission quote from tue.nl
 - **Events**: upcoming / past tabs
 - **Best Paper Award** feature band (facts from the 2026 edition on tue.nl)
-- **Board**: the eight current board members
+- **Board**: the eight current board members, with photos
 - **Join**: perks, and a button to the membership form on tue.nl
 - **Resources**: onboarding, career & funding, wellbeing
-- **Footer / contact**: email, LinkedIn group, Instagram, X, PostdocNL
+- **Footer / contact**: email, LinkedIn group, Instagram, PostdocNL
 
 The logo (`img/logo*.png`, plus `favicon.png` and the link-preview image `og-card.png`) is the PDA logo from tue.nl. Calendar files for events live in `cal/`.
 
