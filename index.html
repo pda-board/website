@@ -162,17 +162,6 @@ p { margin: 0; }
 .btn .arrow { transition: transform .15s ease; }
 .btn:hover .arrow { transform: translateX(3px); }
 
-/* ---------------- Preview banner ---------------- */
-.preview-banner {
-  background: var(--navy); color: var(--on-navy);
-  font-size: 0.875rem; padding: 0.6rem var(--gutter);
-  display: flex; justify-content: center; align-items: center; gap: 1rem; flex-wrap: wrap;
-}
-.preview-banner strong { font-family: var(--font-mono); font-weight: 500; letter-spacing: .08em; text-transform: uppercase; font-size: .72rem; border: 1px solid var(--on-navy-muted); padding: .15rem .45rem; border-radius: 2px; }
-.preview-banner button { background: transparent; color: var(--on-navy-muted); border: 0; cursor: pointer; font: inherit; text-decoration: underline; padding: 0; }
-.preview-banner button:hover { color: var(--on-navy); }
-.preview-banner[hidden] { display: none; }
-
 /* ---------------- Header / nav ---------------- */
 .site-header {
   position: sticky; top: 0; z-index: 50;
@@ -416,12 +405,6 @@ p { margin: 0; }
 </style>
 </head>
 <body>
-
-<div class="preview-banner" id="previewBanner">
-  <strong>Preview</strong>
-  <span>Example site for the board — department names and resource links are placeholders to be replaced.</span>
-  <button type="button" id="dismissBanner">Hide</button>
-</div>
 
 <header class="site-header">
   <div class="container nav">
@@ -825,17 +808,6 @@ p { margin: 0; }
     });
     links.addEventListener('click', function (e) {
       if (e.target.tagName === 'A') { links.classList.remove('open'); toggle.setAttribute('aria-expanded', 'false'); }
-    });
-  }
-
-  // Preview banner
-  var banner = document.getElementById('previewBanner');
-  var dismiss = document.getElementById('dismissBanner');
-  if (banner && dismiss) {
-    try { if (localStorage.getItem('pda-preview-dismissed') === '1') banner.hidden = true; } catch (e) {}
-    dismiss.addEventListener('click', function () {
-      banner.hidden = true;
-      try { localStorage.setItem('pda-preview-dismissed', '1'); } catch (e) {}
     });
   }
 

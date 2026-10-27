@@ -22,7 +22,6 @@ freely licensed). Dark mode follows the visitor's system setting.
 
 | Where | What |
 |---|---|
-| Top banner | Remove the "Preview" banner (`<div class="preview-banner">`) |
 | Board | Add departments and photos (`<div class="avatar"><img src="..."></div>`) |
 | Resources | Links marked `https://www.tue.nl/en/` need the real TU/e page URLs |
 | Footer | LinkedIn URL (currently the generic linkedin.com) |
