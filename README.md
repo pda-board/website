@@ -22,7 +22,7 @@ freely licensed). Dark mode follows the visitor's system setting.
 
 | Where | What |
 |---|---|
-| Board | Add photos (`<div class="avatar"><img src="..."></div>`) and Femke Verheggen's department |
+| Board | Femke Verheggen: photo and department (photos live in `img/board/`, 480×480 JPEG) |
 | Resources | Links marked `https://www.tue.nl/en/` need the real TU/e page URLs |
 
 ## Deploying on GitHub Pages
