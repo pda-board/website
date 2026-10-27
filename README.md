@@ -26,6 +26,22 @@ Photos live in `img/board/` as 480×480 JPEGs, named after the person
 (`firstname-lastname.jpg`). Most come from the TU/e research portal; Femke
 Verheggen's is from her LinkedIn profile.
 
+## Flyers
+
+Each flyer is an HTML page in `flyers/` (e.g. `flyers/glow-walk-2026.html`),
+rendered with headless Chrome:
+
+```sh
+CHROME="/Applications/Google Chrome.app/Contents/MacOS/Google Chrome"
+# 300 dpi A4 image (2481 x 3509); turn it into the print PDF with any image-to-PDF tool
+"$CHROME" --headless=new --hide-scrollbars --allow-file-access-from-files \
+  --force-device-scale-factor=3.125 --virtual-time-budget=8000 --window-size=794,1123 \
+  --screenshot=flyer.png flyers/glow-walk-2026.html
+```
+
+Print the PDF built from that image rather than Chrome's own "print to PDF":
+the neon glows do not survive as vectors. Web copies live in `img/flyers/`.
+
 ## Deploying on GitHub Pages
 
 1. Create a GitHub organisation for the PDA (e.g. `tue-pda`) or use a personal account.

@@ -1,0 +1,140 @@
+<!doctype html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<title>Borrel &amp; GLOW Walk 2026 — flyer</title>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Urbanist:wght@600;800;900&family=Lato:wght@400;700&family=IBM+Plex+Mono:wght@500&display=block">
+<script src="https://cdnjs.cloudflare.com/ajax/libs/qrcodejs/1.0.0/qrcode.min.js"></script>
+<style>
+/* A4 flyer. Rendered to PNG/PDF with headless Chrome; see README. */
+@page { size: A4; margin: 0; }
+* { box-sizing: border-box; margin: 0; padding: 0; }
+html, body { width: 210mm; height: 297mm; }
+body { background: #05061a; -webkit-print-color-adjust: exact; print-color-adjust: exact; }
+.flyer {
+  position: relative; width: 210mm; height: 297mm; overflow: hidden; color: #eef0ff;
+  font-family: Lato, sans-serif;
+  background:
+    radial-gradient(60% 40% at 85% 12%, rgba(94, 231, 255, .20), transparent 70%),
+    radial-gradient(55% 35% at 10% 55%, rgba(255, 79, 163, .16), transparent 70%),
+    radial-gradient(70% 40% at 80% 95%, rgba(255, 207, 90, .14), transparent 70%),
+    linear-gradient(180deg, #070822 0%, #05061a 55%, #0a0820 100%);
+}
+/* soft bokeh lights */
+.bokeh span { position: absolute; border-radius: 50%; filter: blur(2px); opacity: .55; }
+
+/* the PDA molecule as a light installation */
+.molecule { position: absolute; right: -40mm; top: 4mm; width: 140mm; height: 140mm; }
+
+.content { position: absolute; inset: 16mm 16mm 14mm 16mm; display: flex; flex-direction: column; }
+.logo { height: 20mm; width: auto; display: block; align-self: flex-start; }
+.eyebrow { margin-top: 20mm; font-family: 'IBM Plex Mono', monospace; font-size: 10.5pt; letter-spacing: .22em; text-transform: uppercase; color: #9fe9ff;
+  text-shadow: 0 0 6px rgba(94, 231, 255, .7); }
+
+h1 { margin-top: 5mm; font-family: Urbanist, sans-serif; font-weight: 900; line-height: .86; letter-spacing: -.02em; }
+h1 .l1 { display: block; font-size: 58pt; color: #fff3d1;
+  text-shadow: 0 0 2px #fff, 0 0 10px #ffcf5a, 0 0 26px #ffb82e, 0 0 60px rgba(255, 168, 30, .75); }
+h1 .l2 { display: block; font-size: 100pt; margin-top: 2mm; color: #f2fdff;
+  text-shadow: 0 0 2px #fff, 0 0 12px #5ee7ff, 0 0 32px #22c8f0, 0 0 80px rgba(34, 200, 240, .8); }
+h1 .l2 em { display: block; font-style: normal; color: #ffe3f1;
+  text-shadow: 0 0 2px #fff, 0 0 12px #ff4fa3, 0 0 32px #ff2b8c, 0 0 80px rgba(255, 43, 140, .8); }
+
+.lede { margin-top: 8mm; max-width: 140mm; font-size: 15.5pt; line-height: 1.4; color: #d9dcf5; }
+
+.facts { margin-top: 9mm; display: grid; grid-template-columns: 1fr 0.8fr 1.25fr; gap: 4mm; }
+.fact { border: 1px solid rgba(159, 233, 255, .45); border-radius: 3mm; padding: 4mm 4.5mm;
+  box-shadow: 0 0 14px rgba(94, 231, 255, .18), inset 0 0 14px rgba(94, 231, 255, .08); background: rgba(10, 14, 40, .55); }
+.fact .k { font-family: 'IBM Plex Mono', monospace; font-size: 8.5pt; letter-spacing: .2em; text-transform: uppercase; color: #9fe9ff; }
+.fact .v { margin-top: 2mm; font-family: Urbanist, sans-serif; font-weight: 800; font-size: 17pt; line-height: 1.15; color: #fff; }
+
+.programme { margin-top: 8mm; }
+.programme h2 { font-family: 'IBM Plex Mono', monospace; font-weight: 500; font-size: 9.5pt; letter-spacing: .22em; text-transform: uppercase; color: #ffd98a;
+  text-shadow: 0 0 6px rgba(255, 207, 90, .6); }
+.programme ol { list-style: none; margin-top: 4mm; display: grid; gap: 3mm; }
+.programme li { display: grid; grid-template-columns: 30mm 1fr; align-items: baseline; font-size: 15pt; color: #eef0ff; }
+.programme .t { font-family: Urbanist, sans-serif; font-weight: 800; font-size: 17pt; color: #fff3d1; text-shadow: 0 0 10px rgba(255, 184, 46, .7); }
+
+.foot { margin-top: auto; display: flex; align-items: flex-end; justify-content: space-between; gap: 8mm; }
+.cta .big { font-family: Urbanist, sans-serif; font-weight: 800; font-size: 19pt; color: #fff; }
+.cta p { margin-top: 1.5mm; font-size: 11.5pt; color: #b9bde0; max-width: 95mm; line-height: 1.4; }
+.cta .url { margin-top: 3mm; font-family: 'IBM Plex Mono', monospace; font-size: 10pt; letter-spacing: .08em; color: #9fe9ff; }
+.qr { background: #fff; padding: 3mm; border-radius: 3mm; box-shadow: 0 0 22px rgba(94, 231, 255, .55), 0 0 60px rgba(94, 231, 255, .25); }
+.qr canvas, .qr img { display: block; width: 36mm !important; height: 36mm !important; }
+</style>
+</head>
+<body>
+<div class="flyer">
+  <div class="bokeh" aria-hidden="true">
+    <span style="left:4mm;top:96mm;width:5mm;height:5mm;background:#ff4fa3"></span>
+    <span style="left:170mm;top:150mm;width:7mm;height:7mm;background:#ffcf5a"></span>
+    <span style="left:186mm;top:128mm;width:3mm;height:3mm;background:#5ee7ff"></span>
+    <span style="left:120mm;top:262mm;width:3.5mm;height:3.5mm;background:#ffcf5a"></span>
+    <span style="left:96mm;top:12mm;width:2.5mm;height:2.5mm;background:#5ee7ff"></span>
+    <span style="left:194mm;top:240mm;width:4mm;height:4mm;background:#ff4fa3"></span>
+  </div>
+
+  <svg class="molecule" viewBox="0 0 600 600" aria-hidden="true">
+    <defs>
+      <filter id="glow" x="-50%" y="-50%" width="200%" height="200%">
+        <feGaussianBlur stdDeviation="14" result="b1"/>
+        <feGaussianBlur in="SourceGraphic" stdDeviation="4" result="b2"/>
+        <feMerge><feMergeNode in="b1"/><feMergeNode in="b1"/><feMergeNode in="b2"/><feMergeNode in="SourceGraphic"/></feMerge>
+      </filter>
+      <radialGradient id="pink" cx="40%" cy="38%" r="65%"><stop offset="0" stop-color="#fff"/><stop offset=".25" stop-color="#ffc2df"/><stop offset="1" stop-color="#ff2b8c"/></radialGradient>
+      <radialGradient id="amber" cx="40%" cy="38%" r="65%"><stop offset="0" stop-color="#fff"/><stop offset=".25" stop-color="#ffe7a8"/><stop offset="1" stop-color="#ffa81e"/></radialGradient>
+      <radialGradient id="cyan" cx="40%" cy="38%" r="65%"><stop offset="0" stop-color="#fff"/><stop offset=".25" stop-color="#c8f6ff"/><stop offset="1" stop-color="#22c8f0"/></radialGradient>
+    </defs>
+    <g filter="url(#glow)" stroke-linecap="round">
+      <line x1="170" y1="150" x2="290" y2="270" stroke="#ffe7a8" stroke-width="10"/>
+      <line x1="290" y1="270" x2="440" y2="215" stroke="#c8f6ff" stroke-width="10"/>
+      <line x1="290" y1="270" x2="250" y2="420" stroke="#ffc2df" stroke-width="7" opacity=".7"/>
+      <line x1="440" y1="215" x2="520" y2="360" stroke="#c8f6ff" stroke-width="5" opacity=".45"/>
+      <circle cx="170" cy="150" r="62" fill="url(#pink)"/>
+      <circle cx="290" cy="270" r="84" fill="url(#amber)"/>
+      <circle cx="440" cy="215" r="40" fill="url(#cyan)"/>
+      <circle cx="250" cy="420" r="18" fill="url(#pink)" opacity=".8"/>
+      <circle cx="520" cy="360" r="12" fill="url(#cyan)" opacity=".7"/>
+    </g>
+  </svg>
+
+  <div class="content">
+    <img class="logo" src="../img/logo-white.png" alt="TU/e Postdoc Association">
+    <div class="eyebrow">TU/e Postdoc Association presents</div>
+    <h1><span class="l1">Borrel &amp;</span><span class="l2"><em>GLOW</em> Walk</span></h1>
+    <p class="lede">Drinks with fellow postdocs first, then we head out together into Eindhoven's festival of light.</p>
+
+    <div class="facts">
+      <div class="fact"><div class="k">When</div><div class="v">Tue 10 Nov 2026</div></div>
+      <div class="fact"><div class="k">Time</div><div class="v">From 17:00</div></div>
+      <div class="fact"><div class="k">Where</div><div class="v">De Zwarte Doos<br>TU/e campus</div></div>
+    </div>
+
+    <div class="programme">
+      <h2>Programme</h2>
+      <ol>
+        <li><span class="t">17:00</span><span>Borrel at De Zwarte Doos</span></li>
+        <li><span class="t">Then</span><span>We walk to GLOW together</span></li>
+      </ol>
+    </div>
+
+    <div class="foot">
+      <div class="cta">
+        <div class="big">See you there!</div>
+        <p>Scan for details and to add the event to your calendar.</p>
+        <div class="url">pda-board.github.io/website</div>
+      </div>
+      <div class="qr" id="qr"></div>
+    </div>
+  </div>
+</div>
+<script>
+  new QRCode(document.getElementById('qr'), {
+    text: 'https://pda-board.github.io/website/#events',
+    width: 512, height: 512, colorDark: '#05061a', colorLight: '#ffffff',
+    correctLevel: QRCode.CorrectLevel.M
+  });
+</script>
+</body>
+</html>

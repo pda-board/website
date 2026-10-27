@@ -250,6 +250,12 @@ p { margin: 0; }
 .next-card .actions { display: flex; gap: .75rem; flex-wrap: wrap; align-items: center; }
 .next-card .link { color: var(--on-navy); font-family: var(--font-display); font-weight: 700; text-decoration: none; }
 .next-card .link:hover { text-decoration: underline; }
+.next-card { position: relative; }
+.next-flyer { position: absolute; top: -1.25rem; right: -0.75rem; width: 7rem; transform: rotate(4deg); transition: transform .2s ease; }
+.next-card .eyebrow, .next-card .date { margin-right: 6.5rem; }
+.next-flyer img { display: block; width: 100%; height: auto; border-radius: 4px; box-shadow: 0 10px 28px rgba(0, 0, 0, .45), 0 0 0 1px rgba(255, 255, 255, .12); }
+.next-flyer:hover { transform: rotate(0deg) scale(1.03); }
+@media (prefers-reduced-motion: reduce) { .next-flyer { transition: none; } }
 @media (max-width: 860px) {
   .hero .container { grid-template-columns: 1fr; }
 }
@@ -453,13 +459,14 @@ p { margin: 0; }
 
       <!-- Next event -->
       <article class="next-card" aria-label="Next event">
+        <a class="next-flyer" href="img/flyers/glow-walk-2026.jpg"><img src="img/flyers/glow-walk-2026-thumb.jpg" alt="Flyer for the Borrel &amp; GLOW Walk" width="420" height="594"></a>
         <span class="eyebrow">Next up</span>
         <div class="date"><b>Tue 10 Nov 2026</b><span>From 17:00</span><span>Zwarte Doos, campus</span></div>
         <h2>Borrel &amp; Glow Walk</h2>
         <p>Drinks at Zwarte Doos, then we head out together for a walk through GLOW, Eindhoven's light festival.</p>
         <div class="actions">
           <a class="btn btn-onnavy" href="cal/borrel-glow-walk-2026.ics" download>Add to calendar</a>
-          <a class="link" href="#events">All events →</a>
+          <a class="link" href="img/flyers/glow-walk-2026.jpg">View flyer</a>
         </div>
       </article>
     </div>
@@ -535,7 +542,7 @@ p { margin: 0; }
             <div class="event-date"><span class="day">10</span><span class="mon">Nov 2026</span></div>
             <div class="event-body">
               <h3>Borrel &amp; Glow Walk</h3>
-              <p>From 17:00 · Zwarte Doos, TU/e campus · Drinks first, then a walk together through the GLOW light festival.</p>
+              <p>From 17:00 · Zwarte Doos, TU/e campus · Drinks first, then a walk together through the GLOW light festival. <a href="flyers/glow-walk-2026.pdf">Flyer (PDF)</a></p>
               <div class="event-tags"><span class="chip type-social">Social</span></div>
             </div>
             <a class="btn btn-ghost event-cta" href="cal/borrel-glow-walk-2026.ics" download>Add to calendar</a>
