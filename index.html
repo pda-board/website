@@ -352,22 +352,11 @@ p { margin: 0; }
 .perks li { display: grid; grid-template-columns: 1.5rem minmax(0, 1fr); gap: .75rem; align-items: start; color: var(--ink-soft); }
 .perks li svg { color: var(--scarlet); margin-top: .2rem; }
 .form-card { background: var(--card); border: 1px solid var(--line-soft); border-radius: var(--radius); padding: 2rem; box-shadow: var(--shadow); }
-.form-grid { display: grid; grid-template-columns: 1fr 1fr; gap: 1.1rem; }
-.field { display: flex; flex-direction: column; gap: .4rem; }
-.field.full { grid-column: 1 / -1; }
-.field label { font-family: var(--font-display); font-weight: 700; font-size: .95rem; }
-.field label .opt { color: var(--muted); font-weight: 400; font-family: var(--font-body); font-size: .85rem; }
-.field input, .field select {
-  font: inherit; color: var(--ink); background: var(--paper); border: 1.5px solid var(--line); border-radius: var(--radius);
-  padding: .7rem .85rem; width: 100%;
-}
-.field input:focus, .field select:focus { outline: 2px solid var(--focus); outline-offset: 1px; border-color: var(--focus); }
-.field .hint { color: var(--muted); font-size: .85rem; }
-.form-actions { grid-column: 1 / -1; display: flex; align-items: center; gap: 1rem; flex-wrap: wrap; margin-top: .25rem; }
+.form-card h3 { margin-top: 0; }
+.form-card p { color: var(--ink-soft); }
+.form-actions { display: flex; align-items: center; gap: 1rem; flex-wrap: wrap; margin-top: 1.5rem; }
 .form-actions .note { color: var(--muted); font-size: .85rem; }
-.form-success { grid-column: 1 / -1; background: var(--scarlet-wash); color: var(--ink); border-radius: var(--radius); padding: 1rem 1.25rem; }
-.form-success[hidden] { display: none; }
-@media (max-width: 860px) { .join-grid, .form-grid { grid-template-columns: 1fr; } }
+@media (max-width: 860px) { .join-grid { grid-template-columns: 1fr; } }
 
 /* ---------------- Resources ---------------- */
 .resource-grid { display: grid; grid-template-columns: repeat(3, minmax(0, 1fr)); gap: 1.25rem; }
@@ -684,44 +673,14 @@ p { margin: 0; }
         </ul>
       </div>
 
-      <form class="form-card reveal" id="joinForm" novalidate>
-        <div class="form-grid">
-          <div class="field">
-            <label for="fname">Full name</label>
-            <input id="fname" name="name" type="text" autocomplete="name" required>
-          </div>
-          <div class="field">
-            <label for="femail">Email address</label>
-            <input id="femail" name="email" type="email" autocomplete="email" placeholder="you@tue.nl" required>
-            <span class="hint">Your TU/e address, if you have one.</span>
-          </div>
-          <div class="field full">
-            <label for="fdept">Current TU/e department</label>
-            <select id="fdept" name="department" required>
-              <option value="">Choose a department…</option>
-              <option>Applied Physics and Science Education</option>
-              <option>Biomedical Engineering</option>
-              <option>Built Environment</option>
-              <option>Chemical Engineering and Chemistry</option>
-              <option>Electrical Engineering</option>
-              <option>Industrial Design</option>
-              <option>Industrial Engineering and Innovation Sciences</option>
-              <option>Mathematics and Computer Science</option>
-              <option>Mechanical Engineering</option>
-              <option>Other / research institute</option>
-            </select>
-          </div>
-          <div class="field full">
-            <label for="fsource">How did you hear about the PDA? <span class="opt">optional</span></label>
-            <input id="fsource" name="source" type="text" placeholder="A colleague, HR onboarding, LinkedIn…">
-          </div>
-          <div class="form-actions">
-            <button class="btn btn-primary" type="submit">Apply for membership</button>
-            <span class="note">You'll get a confirmation email once the board has added you.</span>
-          </div>
-          <div class="form-success" id="formSuccess" hidden></div>
+      <div class="form-card reveal">
+        <h3>Apply on tue.nl</h3>
+        <p>Membership applications go through the PDA's form on the TU/e website. It asks for your name, email address, department, and how you heard about the PDA.</p>
+        <div class="form-actions">
+          <a class="btn btn-primary" href="https://www.tue.nl/en/our-university/community/postdoc-association/apply-for-membership">Apply for membership <span class="arrow" aria-hidden="true">→</span></a>
+          <span class="note">You'll get a confirmation email once the board has added you.</span>
         </div>
-      </form>
+      </div>
     </div>
   </section>
 
@@ -845,26 +804,6 @@ p { margin: 0; }
       }
     });
   });
-
-  // Membership form (demo: no backend yet)
-  var form = document.getElementById('joinForm');
-  var success = document.getElementById('formSuccess');
-  if (form && success) {
-    form.addEventListener('submit', function (e) {
-      e.preventDefault();
-      var name = form.name.value.trim();
-      var email = form.email.value.trim();
-      var dept = form.department.value;
-      if (!name || !email || !dept || !/^[^@\s]+@[^@\s]+\.[^@\s]+$/.test(email)) {
-        success.hidden = false;
-        success.textContent = 'Please fill in your name, a valid email address and your department.';
-        return;
-      }
-      success.hidden = false;
-      success.textContent = 'Thanks, ' + name.split(' ')[0] + ' — this preview has no backend yet. On the live site this form will post to the board’s membership list (or link to the existing TU/e application form).';
-      form.reset();
-    });
-  }
 
   // Scroll reveal (respects reduced motion via CSS)
   var reduce = window.matchMedia && window.matchMedia('(prefers-reduced-motion: reduce)').matches;

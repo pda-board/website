@@ -10,7 +10,7 @@ Example website for the TU/e Postdoc Association (PDA). A single self-contained
 - **Events**: upcoming / past tabs
 - **Best Paper Award** feature band (facts from the 2026 edition on tue.nl)
 - **Board**: the eight current board members
-- **Join**: membership form (same fields as the tue.nl form — no backend yet)
+- **Join**: perks, and a button to the membership form on tue.nl
 - **Resources**: onboarding, career & funding, wellbeing
 - **Footer / contact**: email, LinkedIn group, Instagram, X, PostdocNL
 
@@ -24,7 +24,6 @@ freely licensed). Dark mode follows the visitor's system setting.
 |---|---|
 | Board | Add photos (`<div class="avatar"><img src="..."></div>`) and Femke Verheggen's department |
 | Resources | Links marked `https://www.tue.nl/en/` need the real TU/e page URLs |
-| Join form | Either point the button to the existing tue.nl application form, or connect the form to a backend (Formspree, Microsoft Forms embed, Google Forms) |
 
 ## Deploying on GitHub Pages
 
