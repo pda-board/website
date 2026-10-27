@@ -250,12 +250,34 @@ p { margin: 0; }
 .next-card .actions { display: flex; gap: .75rem; flex-wrap: wrap; align-items: center; }
 .next-card .link { color: var(--on-navy); font-family: var(--font-display); font-weight: 700; text-decoration: none; }
 .next-card .link:hover { text-decoration: underline; }
-.next-card { position: relative; }
-.next-flyer { position: absolute; top: -1.25rem; right: -0.75rem; width: 7rem; transform: rotate(4deg); transition: transform .2s ease; }
-.next-card .eyebrow, .next-card .date { margin-right: 6.5rem; }
-.next-flyer img { display: block; width: 100%; height: auto; border-radius: 4px; box-shadow: 0 10px 28px rgba(0, 0, 0, .45), 0 0 0 1px rgba(255, 255, 255, .12); }
-.next-flyer:hover { transform: rotate(0deg) scale(1.03); }
-@media (prefers-reduced-motion: reduce) { .next-flyer { transition: none; } }
+
+/* ---------------- Next event spotlight ---------------- */
+.spotlight { background: var(--navy); color: var(--on-navy); }
+.spotlight-grid { display: grid; grid-template-columns: minmax(0, 1.15fr) minmax(0, 0.85fr); gap: clamp(2rem, 5vw, 4.5rem); align-items: center; }
+.spotlight .eyebrow { color: var(--on-navy-muted); }
+.spotlight h2 { color: var(--on-navy); margin-top: .75rem; }
+.spotlight-lede { margin-top: 1rem; color: var(--on-navy-muted); font-size: var(--step-1); line-height: 1.45; max-width: 38ch; }
+.spotlight-facts { margin: 1.75rem 0 0; display: grid; grid-template-columns: repeat(3, minmax(0, 1fr)); gap: .75rem; }
+.spotlight-facts div { border: 1px solid rgba(255, 255, 255, .22); border-radius: var(--radius); padding: .85rem 1rem; }
+.spotlight-facts dt { font-family: var(--font-mono); font-size: .72rem; letter-spacing: .14em; text-transform: uppercase; color: var(--on-navy-muted); }
+.spotlight-facts dd { margin: .3rem 0 0; font-family: var(--font-display); font-weight: 700; color: var(--on-navy); line-height: 1.25; }
+.spotlight-programme { list-style: none; margin: 1.5rem 0 0; padding: 0; display: grid; gap: .45rem; color: var(--on-navy); }
+.spotlight-programme span { display: inline-block; min-width: 4.25rem; font-family: var(--font-mono); color: var(--on-navy-muted); }
+.spotlight-register { margin-top: 1.75rem; padding: 1rem 1.15rem; border-radius: var(--radius); background: rgba(255, 255, 255, .07); border: 1px solid rgba(255, 255, 255, .18); display: flex; gap: .75rem 1.25rem; flex-wrap: wrap; align-items: center; justify-content: space-between; }
+.spotlight-register p { color: var(--on-navy-muted); }
+.spotlight-register strong { color: var(--on-navy); }
+.reg-soon { font-family: var(--font-mono); font-size: .75rem; letter-spacing: .12em; text-transform: uppercase; color: var(--on-navy); border: 1px dashed rgba(255, 255, 255, .55); border-radius: 999px; padding: .4rem .85rem; white-space: nowrap; }
+.spotlight-actions { margin-top: 1.5rem; display: flex; gap: .75rem 1.25rem; flex-wrap: wrap; align-items: center; }
+.spotlight .link { color: var(--on-navy); font-family: var(--font-display); font-weight: 700; }
+.spotlight-flyer { display: block; justify-self: center; width: 100%; max-width: 25rem; transform: rotate(2deg); transition: transform .2s ease; }
+.spotlight-flyer img { display: block; width: 100%; height: auto; border-radius: 6px; box-shadow: 0 24px 60px rgba(0, 0, 0, .45), 0 0 0 1px rgba(255, 255, 255, .14); }
+.spotlight-flyer:hover { transform: rotate(0deg) scale(1.01); }
+@media (prefers-reduced-motion: reduce) { .spotlight-flyer { transition: none; } }
+@media (max-width: 860px) {
+  .spotlight-grid { grid-template-columns: 1fr; }
+  .spotlight-flyer { max-width: 20rem; }
+  .spotlight-facts { grid-template-columns: 1fr; }
+}
 @media (max-width: 860px) {
   .hero .container { grid-template-columns: 1fr; }
 }
@@ -459,16 +481,48 @@ p { margin: 0; }
 
       <!-- Next event -->
       <article class="next-card" aria-label="Next event">
-        <a class="next-flyer" href="img/flyers/glow-walk-2026.jpg"><img src="img/flyers/glow-walk-2026-thumb.jpg" alt="Flyer for the Borrel &amp; GLOW Walk" width="420" height="594"></a>
         <span class="eyebrow">Next up</span>
         <div class="date"><b>Tue 10 Nov 2026</b><span>From 17:00</span><span>Zwarte Doos, campus</span></div>
-        <h2>Borrel &amp; Glow Walk</h2>
-        <p>Drinks at Zwarte Doos, then we head out together for a walk through GLOW, Eindhoven's light festival.</p>
+        <h2>Borrel &amp; GLOW Walk</h2>
+        <p>A free borrel at Zwarte Doos, then we head out together for a walk through GLOW, Eindhoven's light festival. Registration is mandatory.</p>
         <div class="actions">
-          <a class="btn btn-onnavy" href="cal/borrel-glow-walk-2026.ics" download>Add to calendar</a>
-          <a class="link" href="img/flyers/glow-walk-2026.jpg">View flyer</a>
+          <a class="btn btn-onnavy" href="#next-event">Details &amp; registration</a>
+          <a class="link" href="cal/borrel-glow-walk-2026.ics" download>Add to calendar</a>
         </div>
       </article>
+    </div>
+  </section>
+
+  <!-- ============ NEXT EVENT ============ -->
+  <!-- To feature the next event: swap the flyer, text and dates below; when registration opens,
+       replace the "Registration opens soon" note with <a class="btn btn-onnavy" href="FORM-URL">Register</a>. -->
+  <section class="section spotlight" id="next-event" aria-labelledby="nextEventTitle">
+    <div class="container spotlight-grid">
+      <div class="spotlight-copy reveal">
+        <span class="eyebrow">Next event</span>
+        <h2 id="nextEventTitle">Borrel &amp; GLOW Walk</h2>
+        <p class="spotlight-lede">Drinks with fellow postdocs at De Zwarte Doos, then we head out together into GLOW, Eindhoven's festival of light.</p>
+        <dl class="spotlight-facts">
+          <div><dt>When</dt><dd>Tuesday 10 November 2026</dd></div>
+          <div><dt>Time</dt><dd>From 17:00</dd></div>
+          <div><dt>Where</dt><dd>De Zwarte Doos, TU/e campus</dd></div>
+        </dl>
+        <ol class="spotlight-programme">
+          <li><span>17:00</span>Free borrel at De Zwarte Doos</li>
+          <li><span>Then</span>We walk to GLOW together</li>
+        </ol>
+        <div class="spotlight-register">
+          <p><strong>Free, but registration is mandatory.</strong> The registration link will be posted here.</p>
+          <span class="reg-soon">Registration opens soon</span>
+        </div>
+        <div class="spotlight-actions">
+          <a class="btn btn-onnavy" href="cal/borrel-glow-walk-2026.ics" download>Add to calendar</a>
+          <a class="link" href="flyers/glow-walk-2026.pdf">Flyer (PDF)</a>
+        </div>
+      </div>
+      <a class="spotlight-flyer reveal" href="img/flyers/glow-walk-2026.jpg">
+        <img src="img/flyers/glow-walk-2026.jpg" alt="Flyer: Borrel &amp; GLOW Walk, Tuesday 10 November 2026 from 17:00 at De Zwarte Doos. Free borrel, registration is mandatory." width="1000" height="1414" loading="lazy">
+      </a>
     </div>
   </section>
 
@@ -541,11 +595,11 @@ p { margin: 0; }
           <li class="event reveal">
             <div class="event-date"><span class="day">10</span><span class="mon">Nov 2026</span></div>
             <div class="event-body">
-              <h3>Borrel &amp; Glow Walk</h3>
-              <p>From 17:00 · Zwarte Doos, TU/e campus · Drinks first, then a walk together through the GLOW light festival. <a href="flyers/glow-walk-2026.pdf">Flyer (PDF)</a></p>
+              <h3>Borrel &amp; GLOW Walk</h3>
+              <p>From 17:00 · Zwarte Doos, TU/e campus · A free borrel, then a walk together through the GLOW light festival. Registration is mandatory. <a href="flyers/glow-walk-2026.pdf">Flyer (PDF)</a></p>
               <div class="event-tags"><span class="chip type-social">Social</span></div>
             </div>
-            <a class="btn btn-ghost event-cta" href="cal/borrel-glow-walk-2026.ics" download>Add to calendar</a>
+            <a class="btn btn-ghost event-cta" href="#next-event">Details &amp; registration</a>
           </li>
           <li class="event reveal">
             <div class="event-date"><span class="day">11</span><span class="mon">Dec 2026</span></div>

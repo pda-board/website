@@ -30,34 +30,39 @@ body { background: #05061a; -webkit-print-color-adjust: exact; print-color-adjus
 
 .content { position: absolute; inset: 16mm 16mm 14mm 16mm; display: flex; flex-direction: column; }
 .logo { height: 20mm; width: auto; display: block; align-self: flex-start; }
-.eyebrow { margin-top: 20mm; font-family: 'IBM Plex Mono', monospace; font-size: 10.5pt; letter-spacing: .22em; text-transform: uppercase; color: #9fe9ff;
+.eyebrow { margin-top: 12mm; font-family: 'IBM Plex Mono', monospace; font-size: 10.5pt; letter-spacing: .22em; text-transform: uppercase; color: #9fe9ff;
   text-shadow: 0 0 6px rgba(94, 231, 255, .7); }
 
 h1 { margin-top: 5mm; font-family: Urbanist, sans-serif; font-weight: 900; line-height: .86; letter-spacing: -.02em; }
 h1 .l1 { display: block; font-size: 58pt; color: #fff3d1;
   text-shadow: 0 0 2px #fff, 0 0 10px #ffcf5a, 0 0 26px #ffb82e, 0 0 60px rgba(255, 168, 30, .75); }
-h1 .l2 { display: block; font-size: 100pt; margin-top: 2mm; color: #f2fdff;
+h1 .l2 { display: block; font-size: 90pt; margin-top: 2mm; color: #f2fdff;
   text-shadow: 0 0 2px #fff, 0 0 12px #5ee7ff, 0 0 32px #22c8f0, 0 0 80px rgba(34, 200, 240, .8); }
 h1 .l2 em { display: block; font-style: normal; color: #ffe3f1;
   text-shadow: 0 0 2px #fff, 0 0 12px #ff4fa3, 0 0 32px #ff2b8c, 0 0 80px rgba(255, 43, 140, .8); }
 
-.lede { margin-top: 8mm; max-width: 140mm; font-size: 15.5pt; line-height: 1.4; color: #d9dcf5; }
+.lede { margin-top: 6mm; max-width: 140mm; font-size: 15.5pt; line-height: 1.4; color: #d9dcf5; }
 
-.facts { margin-top: 9mm; display: grid; grid-template-columns: 1fr 0.8fr 1.25fr; gap: 4mm; }
+.facts { margin-top: 7mm; display: grid; grid-template-columns: 1fr 0.8fr 1.25fr; gap: 4mm; }
 .fact { border: 1px solid rgba(159, 233, 255, .45); border-radius: 3mm; padding: 4mm 4.5mm;
   box-shadow: 0 0 14px rgba(94, 231, 255, .18), inset 0 0 14px rgba(94, 231, 255, .08); background: rgba(10, 14, 40, .55); }
 .fact .k { font-family: 'IBM Plex Mono', monospace; font-size: 8.5pt; letter-spacing: .2em; text-transform: uppercase; color: #9fe9ff; }
 .fact .v { margin-top: 2mm; font-family: Urbanist, sans-serif; font-weight: 800; font-size: 17pt; line-height: 1.15; color: #fff; }
 
-.programme { margin-top: 8mm; }
+.pills { margin-top: 5mm; display: flex; gap: 4mm; }
+.pill { font-family: 'IBM Plex Mono', monospace; font-weight: 500; font-size: 10.5pt; letter-spacing: .16em; text-transform: uppercase;
+  padding: 2.4mm 4.5mm; border-radius: 999px; }
+.pill.free { color: #fff3d1; border: 1.5px solid rgba(255, 207, 90, .85); box-shadow: 0 0 14px rgba(255, 184, 46, .45), inset 0 0 10px rgba(255, 184, 46, .2); }
+.pill.reg { color: #ffe3f1; border: 1.5px solid rgba(255, 79, 163, .9); box-shadow: 0 0 14px rgba(255, 43, 140, .5), inset 0 0 10px rgba(255, 43, 140, .2); }
+.programme { margin-top: 6mm; }
 .programme h2 { font-family: 'IBM Plex Mono', monospace; font-weight: 500; font-size: 9.5pt; letter-spacing: .22em; text-transform: uppercase; color: #ffd98a;
   text-shadow: 0 0 6px rgba(255, 207, 90, .6); }
-.programme ol { list-style: none; margin-top: 4mm; display: grid; gap: 3mm; }
+.programme ol { list-style: none; margin-top: 3mm; display: grid; gap: 2mm; }
 .programme li { display: grid; grid-template-columns: 30mm 1fr; align-items: baseline; font-size: 15pt; color: #eef0ff; }
 .programme .t { font-family: Urbanist, sans-serif; font-weight: 800; font-size: 17pt; color: #fff3d1; text-shadow: 0 0 10px rgba(255, 184, 46, .7); }
 
 .foot { margin-top: auto; display: flex; align-items: flex-end; justify-content: space-between; gap: 8mm; }
-.cta .big { font-family: Urbanist, sans-serif; font-weight: 800; font-size: 19pt; color: #fff; }
+.cta .big { font-family: Urbanist, sans-serif; font-weight: 800; font-size: 21pt; color: #ffe3f1; text-shadow: 0 0 2px #fff, 0 0 12px rgba(255, 43, 140, .8), 0 0 28px rgba(255, 43, 140, .5); }
 .cta p { margin-top: 1.5mm; font-size: 11.5pt; color: #b9bde0; max-width: 95mm; line-height: 1.4; }
 .cta .url { margin-top: 3mm; font-family: 'IBM Plex Mono', monospace; font-size: 10pt; letter-spacing: .08em; color: #9fe9ff; }
 .qr { background: #fff; padding: 3mm; border-radius: 3mm; box-shadow: 0 0 22px rgba(94, 231, 255, .55), 0 0 60px rgba(94, 231, 255, .25); }
@@ -110,19 +115,20 @@ h1 .l2 em { display: block; font-style: normal; color: #ffe3f1;
       <div class="fact"><div class="k">Time</div><div class="v">From 17:00</div></div>
       <div class="fact"><div class="k">Where</div><div class="v">De Zwarte Doos<br>TU/e campus</div></div>
     </div>
+    <div class="pills"><span class="pill free">Free borrel</span><span class="pill reg">Registration is mandatory</span></div>
 
     <div class="programme">
       <h2>Programme</h2>
       <ol>
-        <li><span class="t">17:00</span><span>Borrel at De Zwarte Doos</span></li>
+        <li><span class="t">17:00</span><span>Free borrel at De Zwarte Doos</span></li>
         <li><span class="t">Then</span><span>We walk to GLOW together</span></li>
       </ol>
     </div>
 
     <div class="foot">
       <div class="cta">
-        <div class="big">See you there!</div>
-        <p>Scan for details and to add the event to your calendar.</p>
+        <div class="big">Register to join us</div>
+        <p>Registration is mandatory. Scan the code to register and to add the event to your calendar.</p>
         <div class="url">pda-board.github.io/website</div>
       </div>
       <div class="qr" id="qr"></div>
@@ -131,7 +137,7 @@ h1 .l2 em { display: block; font-style: normal; color: #ffe3f1;
 </div>
 <script>
   new QRCode(document.getElementById('qr'), {
-    text: 'https://pda-board.github.io/website/#events',
+    text: 'https://pda-board.github.io/website/#next-event',
     width: 512, height: 512, colorDark: '#05061a', colorLight: '#ffffff',
     correctLevel: QRCode.CorrectLevel.M
   });

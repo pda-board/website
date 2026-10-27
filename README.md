@@ -26,6 +26,16 @@ Photos live in `img/board/` as 480×480 JPEGs, named after the person
 (`firstname-lastname.jpg`). Most come from the TU/e research portal; Femke
 Verheggen's is from her LinkedIn profile.
 
+## Featuring the next event
+
+The navy section `#next-event` (right below the hero) is the spotlight for the
+next event: flyer on the right, details on the left. To feature a new event,
+update that section, the "Next up" card in the hero, and the event's row under
+Events › Upcoming. When registration opens, replace the "Registration opens
+soon" note with `<a class="btn btn-onnavy" href="FORM-URL">Register</a>`.
+Flyer QR codes point to `.../website/#next-event`, so printed flyers keep
+working when the form link changes.
+
 ## Flyers
 
 Each flyer is an HTML page in `flyers/` (e.g. `flyers/glow-walk-2026.html`),
