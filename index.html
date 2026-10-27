@@ -5,6 +5,19 @@
 <meta name="viewport" content="width=device-width, initial-scale=1">
 <title>TU/e Postdoc Association</title>
 <meta name="description" content="The TU/e Postdoc Association (PDA) is a community run by postdocs, for all postdocs at Eindhoven University of Technology: networking, training, career support and representation.">
+<link rel="icon" type="image/png" href="img/favicon.png">
+<link rel="apple-touch-icon" href="img/apple-touch-icon.png">
+<link rel="canonical" href="https://pda-board.github.io/website/">
+<meta property="og:type" content="website">
+<meta property="og:site_name" content="TU/e Postdoc Association">
+<meta property="og:title" content="TU/e Postdoc Association">
+<meta property="og:description" content="A community run by postdocs, for all postdocs at Eindhoven University of Technology: events, career support and a monthly newsletter.">
+<meta property="og:url" content="https://pda-board.github.io/website/">
+<meta property="og:image" content="https://pda-board.github.io/website/img/og-card.png">
+<meta property="og:image:width" content="1200">
+<meta property="og:image:height" content="630">
+<meta property="og:image:alt" content="TU/e Postdoc Association logo with the line: The in-between, together.">
+<meta name="twitter:card" content="summary_large_image">
 <link rel="preconnect" href="https://fonts.googleapis.com">
 <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
 <link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Urbanist:wght@600;700;800&amp;family=Lato:ital,wght@0,400;0,700;1,400&amp;family=IBM+Plex+Mono:wght@500&amp;display=swap">
@@ -173,18 +186,12 @@ p { margin: 0; }
 .nav { display: flex; align-items: center; justify-content: space-between; gap: 1.5rem; height: 4.25rem; }
 .brand { display: flex; align-items: center; gap: 0.75rem; text-decoration: none; color: var(--ink); }
 .brand:hover { color: var(--ink); }
-.brand-mark {
-  width: 2.25rem; height: 2.25rem; border-radius: var(--radius);
-  background: var(--scarlet); color: var(--on-scarlet);
-  display: grid; place-items: center;
-  font-family: var(--font-display); font-weight: 800; font-size: 1.5rem; line-height: 1;
-}
-.brand-text { display: flex; flex-direction: column; line-height: 1.05; }
-.brand-text .top { font-family: var(--font-display); font-weight: 800; font-size: 1.05rem; letter-spacing: -0.01em; }
-.brand-text .sub { font-family: var(--font-mono); font-size: 0.68rem; letter-spacing: 0.12em; text-transform: uppercase; color: var(--muted); }
+.brand-logo { display: block; height: 3.5rem; width: auto; }
+.footer-brand .brand-logo { height: 4.5rem; }
 .nav-links { display: flex; align-items: center; gap: 1.5rem; list-style: none; margin: 0; padding: 0; }
 .nav-links a { white-space: nowrap; color: var(--ink-soft); text-decoration: none; font-family: var(--font-display); font-weight: 600; font-size: 0.95rem; }
 .nav-links a:hover { color: var(--scarlet); }
+.nav-links .btn-primary, .nav-links .btn-primary:hover { color: var(--on-scarlet); }
 .nav-cta { margin-left: 0.5rem; }
 .nav-social + .nav-social { margin-left: -0.9rem; }
 .nav-social a { width: 2.25rem; height: 2.25rem; border: 1px solid var(--line); border-radius: var(--radius); display: grid; place-items: center; }
@@ -220,11 +227,6 @@ p { margin: 0; }
   padding-block: clamp(3.5rem, 8vw, 6.5rem);
   position: relative; z-index: 1;
 }
-.hero-slash {
-  position: absolute; right: -2vw; top: 50%; transform: translateY(-52%);
-  font-family: var(--font-display); font-weight: 800; font-size: clamp(22rem, 52vw, 44rem); line-height: 1;
-  color: var(--scarlet); opacity: .09; pointer-events: none; user-select: none; z-index: 0;
-}
 .hero-copy { display: flex; flex-direction: column; gap: 1.5rem; }
 .hero-copy h1 { max-width: 12ch; }
 .hero-copy h1 em { font-style: normal; color: var(--scarlet); }
@@ -248,7 +250,6 @@ p { margin: 0; }
 .next-card .link:hover { text-decoration: underline; }
 @media (max-width: 860px) {
   .hero .container { grid-template-columns: 1fr; }
-  .hero-slash { display: none; }
 }
 
 /* ---------------- Pillars ---------------- */
@@ -387,7 +388,6 @@ p { margin: 0; }
 .site-footer a:hover { text-decoration: underline; color: var(--on-navy); }
 .footer-brand { display: flex; flex-direction: column; gap: 1rem; max-width: 40ch; }
 .footer-brand .brand { color: var(--on-navy); }
-.footer-brand .brand-text .sub { color: var(--on-navy-muted); }
 .social { display: flex; gap: .6rem; }
 .social a { width: 2.25rem; height: 2.25rem; border: 1px solid rgba(255,255,255,.25); border-radius: var(--radius); display: grid; place-items: center; }
 .social a:hover { background: rgba(255,255,255,.1); }
@@ -406,8 +406,10 @@ p { margin: 0; }
 <header class="site-header">
   <div class="container nav">
     <a class="brand" href="#top" aria-label="TU/e Postdoc Association — home">
-      <span class="brand-mark" aria-hidden="true">/</span>
-      <span class="brand-text"><span class="top">Postdoc Association</span><span class="sub">TU/e · Eindhoven</span></span>
+      <picture>
+        <source srcset="img/logo-dark.png" media="(prefers-color-scheme: dark)">
+        <img class="brand-logo" src="img/logo.png" alt="" width="196" height="129">
+      </picture>
     </a>
     <button class="nav-toggle" id="navToggle" aria-expanded="false" aria-controls="navLinks" aria-label="Open menu">
       <svg width="20" height="20" viewBox="0 0 20 20" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round"><path d="M3 5h14M3 10h14M3 15h14"/></svg>
@@ -430,7 +432,6 @@ p { margin: 0; }
 
   <!-- ============ HERO ============ -->
   <section class="hero" aria-labelledby="heroTitle">
-    <div class="hero-slash" aria-hidden="true">/</div>
     <div class="container">
       <div class="hero-copy">
         <span class="eyebrow">TU/e Postdoc Association · by postdocs, for postdocs · since 2020</span>
@@ -454,7 +455,7 @@ p { margin: 0; }
         <h3>Borrel &amp; Glow Walk</h3>
         <p>Drinks at Zwarte Doos, then we head out together for a walk through GLOW, Eindhoven's light festival.</p>
         <div class="actions">
-          <a class="btn btn-onnavy" href="#join">Join the PDA</a>
+          <a class="btn btn-onnavy" href="cal/borrel-glow-walk-2026.ics" download>Add to calendar</a>
           <a class="link" href="#events">All events →</a>
         </div>
       </aside>
@@ -492,8 +493,8 @@ p { margin: 0; }
           <h3>Grow</h3>
           <p>Training and workshops tailored to postdocs, plus career-development advice for the next step — inside or outside academia.</p>
           <ul>
-            <li>Grant-writing and funding sessions</li>
-            <li>Career panels: academia, Brainport industry, beyond</li>
+            <li>Grant-writing workshops</li>
+            <li>Career panels</li>
             <li>The annual Best Paper Award</li>
           </ul>
         </article>
@@ -502,7 +503,6 @@ p { margin: 0; }
           <h3>Be heard</h3>
           <p>One voice for postdocs towards the university — on contracts, recognition, onboarding and wellbeing — and a link to the national network.</p>
           <ul>
-            <li>Dialogue with HR and the Executive Board</li>
             <li>Local network of <a href="https://www.postdocnl.com/">PostdocNL</a></li>
             <li>A place to raise what isn't working</li>
           </ul>
@@ -535,16 +535,16 @@ p { margin: 0; }
               <p>From 17:00 · Zwarte Doos, TU/e campus · Drinks first, then a walk together through the GLOW light festival.</p>
               <div class="event-tags"><span class="chip type-social">Social</span></div>
             </div>
-            <a class="btn btn-ghost event-cta" href="#join">Join the PDA</a>
+            <a class="btn btn-ghost event-cta" href="cal/borrel-glow-walk-2026.ics" download>Add to calendar</a>
           </li>
           <li class="event reveal">
             <div class="event-date"><span class="day">11</span><span class="mon">Dec 2026</span></div>
             <div class="event-body">
               <h4>Talking Science 2026</h4>
-              <p>14:00 – 16:00, drinks after · Atlas 0.710 · Thirteen PhD, EngD and postdoc researchers pitch their own research in three minutes. Jury prizes of €750 and €500, plus a €500 audience prize. Organised by the TU/e Communication Expertise Center as part of WinTU/er Wonderland.</p>
+              <p>14:00 – 16:00, drinks after · Atlas 0.710 · Thirteen PhD, EngD and postdoc researchers pitch their own research in three minutes. Jury prizes of €750 and €500, plus a €500 audience prize. Organised by the TU/e Communication Expertise Center as part of WinTU/er Wonderland. <a href="https://www.tue.nl/universiteit/calendar-and-events/11-12-2026-talking-science-2026">Details on tue.nl</a></p>
               <div class="event-tags"><span class="chip type-career">Pitch competition</span><span class="chip">Free</span></div>
             </div>
-            <a class="btn btn-ghost event-cta" href="https://www.tue.nl/universiteit/calendar-and-events/11-12-2026-talking-science-2026">Event page</a>
+            <a class="btn btn-ghost event-cta" href="cal/talking-science-2026.ics" download>Add to calendar</a>
           </li>
           <li class="event reveal">
             <div class="event-date"><span class="day">TBA</span><span class="mon">Dec 2026</span></div>
@@ -679,8 +679,7 @@ p { margin: 0; }
         </div>
         <ul class="perks">
           <li><svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M5 12l5 5L20 7"/></svg><span>The monthly newsletter: events, calls, deadlines, and news that matters to postdocs.</span></li>
-          <li><svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M5 12l5 5L20 7"/></svg><span>Invitations to PDA-exclusive events and first access to workshops with limited seats.</span></li>
-          <li><svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M5 12l5 5L20 7"/></svg><span>A vote at the general assembly, and a board that represents you towards the university.</span></li>
+          <li><svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M5 12l5 5L20 7"/></svg><span>Invitations to PDA-exclusive events.</span></li>
           <li><svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M5 12l5 5L20 7"/></svg><span>A community of people in the same in-between as you.</span></li>
         </ul>
       </div>
@@ -702,15 +701,15 @@ p { margin: 0; }
       <div class="section-head reveal">
         <span class="eyebrow">Resources</span>
         <h2 id="resourcesTitle">Useful for postdocs at TU/e</h2>
-        <p>Things we get asked about most. Links to TU/e-internal pages are placeholders until the board confirms them.</p>
+        <p>Things we get asked about most.</p>
       </div>
       <div class="resource-grid">
         <div class="resource reveal">
           <h4>New at TU/e</h4>
           <ul>
-            <li><a href="https://www.tue.nl/en/">Onboarding &amp; HR services</a><span>Contract, campus card, IT, pension</span></li>
+            <li><a href="https://www.tue.nl/en/working-at-tue/preboarding">Starting at TU/e</a><span>Contract, TU/e account, campus card, first day</span></li>
             <li><a href="https://hollandexpatcenter.com/">Holland Expat Center South</a><span>Registration, BSN, 30% ruling, housing</span></li>
-            <li><a href="https://www.tue.nl/en/">Dutch courses at TU/e</a><span>Language Center, staff discount</span></li>
+            <li><a href="https://educationguide.tue.nl/career-skills/language-courses-and-academic-writing-skills/dutch-language-courses">Dutch courses at TU/e</a><span>TU/e Language Center, for students and staff</span></li>
           </ul>
         </div>
         <div class="resource reveal">
@@ -725,8 +724,8 @@ p { margin: 0; }
         <div class="resource reveal">
           <h4>Wellbeing &amp; support</h4>
           <ul>
-            <li><a href="https://www.tue.nl/en/">Confidential advisors at TU/e</a><span>For conflicts, harassment or integrity questions</span></li>
-            <li><a href="https://www.tue.nl/en/">Occupational health &amp; psychologist</a><span>Free for TU/e staff</span></li>
+            <li><a href="https://www.tue.nl/en/our-university/about-the-university/integrity-and-social-safety/integrity-and-social-safety-desk/confidential-advisors">Confidential advisors at TU/e</a><span>For conflicts, harassment or integrity questions</span></li>
+            <li><a href="https://www.tue.nl/en/our-university/about-the-university/integrity-and-social-safety/information-and-support-for-staff">Support for TU/e staff</a><span>OpenUp psychologists (24/7), the ombuds for staff</span></li>
             <li><a href="https://www.postdocnl.com/">PostdocNL help &amp; advice</a><span>Mental health, conflicts, anonymous reporting</span></li>
           </ul>
         </div>
@@ -741,9 +740,8 @@ p { margin: 0; }
   <div class="container">
     <div class="footer-grid">
       <div class="footer-brand">
-        <a class="brand" href="#top">
-          <span class="brand-mark" aria-hidden="true">/</span>
-          <span class="brand-text"><span class="top">Postdoc Association</span><span class="sub">TU/e · Eindhoven</span></span>
+        <a class="brand" href="#top" aria-label="TU/e Postdoc Association — back to top">
+          <img class="brand-logo" src="img/logo-white.png" alt="" width="196" height="129">
         </a>
         <p>An independent association of postdoctoral researchers at Eindhoven University of Technology, and a local network of PostdocNL.</p>
         <div class="social" aria-label="Social media">

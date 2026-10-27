@@ -1,0 +1,16 @@
+BEGIN:VCALENDAR
+VERSION:2.0
+PRODID:-//TU/e Postdoc Association//Website//EN
+CALSCALE:GREGORIAN
+METHOD:PUBLISH
+BEGIN:VEVENT
+UID:talking-science-2026@pda-board.github.io
+DTSTAMP:20261027T180000Z
+DTSTART:20261211T130000Z
+DTEND:20261211T150000Z
+SUMMARY:Talking Science 2026
+LOCATION:Atlas 0.710\, TU/e campus\, Eindhoven
+DESCRIPTION:TU/e pitch competition for PhD\, EngD and postdoc researchers\, followed by drinks. Organised by the TU/e Communication Expertise Center.
+URL:https://www.tue.nl/universiteit/calendar-and-events/11-12-2026-talking-science-2026
+END:VEVENT
+END:VCALENDAR

@@ -14,6 +14,8 @@ Example website for the TU/e Postdoc Association (PDA). A single self-contained
 - **Resources**: onboarding, career & funding, wellbeing
 - **Footer / contact**: email, LinkedIn group, Instagram, X, PostdocNL
 
+The logo (`img/logo*.png`, plus `favicon.png` and the link-preview image `og-card.png`) is the PDA logo from tue.nl. Calendar files for events live in `cal/`.
+
 Palette and type follow the TU/e house style (red `#C72125`, navy `#0E2470`,
 Lato body). Urbanist stands in for Gilroy (TU/e's heading font, which is not
 freely licensed). Dark mode follows the visitor's system setting.
@@ -23,7 +25,6 @@ freely licensed). Dark mode follows the visitor's system setting.
 | Where | What |
 |---|---|
 | Board | Femke Verheggen: photo and department (photos live in `img/board/`, 480×480 JPEG) |
-| Resources | Links marked `https://www.tue.nl/en/` need the real TU/e page URLs |
 
 ## Deploying on GitHub Pages
 
