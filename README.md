@@ -31,8 +31,8 @@ Verheggen's is from her LinkedIn profile.
 The navy section `#next-event` (right below the hero) is the spotlight for the
 next event: flyer on the right, details on the left. To feature a new event,
 update that section, the "Next up" card in the hero, and the event's row under
-Events › Upcoming. When registration opens, replace the "Registration opens
-soon" note with `<a class="btn btn-onnavy" href="FORM-URL">Register</a>`.
+Events › Upcoming. The registration form link appears in all three places
+(the Register buttons) and in the event's `.ics` description.
 Flyer QR codes point to `.../website/#next-event`, so printed flyers keep
 working when the form link changes.
 
