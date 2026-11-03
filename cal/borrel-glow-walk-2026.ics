@@ -5,13 +5,13 @@ CALSCALE:GREGORIAN
 METHOD:PUBLISH
 BEGIN:VEVENT
 UID:borrel-glow-walk-2026@pda-board.github.io
-SEQUENCE:1
-DTSTAMP:20261103T120000Z
-DTSTART:20261110T160000Z
+SEQUENCE:2
+DTSTAMP:20261103T160000Z
+DTSTART:20261110T163000Z
 DTEND:20261110T190000Z
 SUMMARY:PDA Borrel & GLOW Walk
 LOCATION:Zwarte Doos\, TU/e campus\, Eindhoven
-DESCRIPTION:Free borrel at Zwarte Doos from 17:00\, then a walk together th
+DESCRIPTION:Free borrel at Zwarte Doos from 17:30\, then a walk together th
  rough GLOW Eindhoven. Registration is mandatory: https://forms.cloud.micro
  soft/Pages/ResponsePage.aspx?id=R_J9zM5gD0qddXBM9g78ZPzD6NflTR5GhTnMLs4-eV
  xURFVLRTFSVVpGTlQxUFdMNU5BQzFUMVc5TS4u\nTU/e Postdoc Association.
