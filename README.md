@@ -52,23 +52,13 @@ CHROME="/Applications/Google Chrome.app/Contents/MacOS/Google Chrome"
 Print the PDF built from that image rather than Chrome's own "print to PDF":
 the neon glows do not survive as vectors. Web copies live in `img/flyers/`.
 
-## Deploying on GitHub Pages
+## Where the site is published
 
-1. Create a GitHub organisation for the PDA (e.g. `tue-pda`) or use a personal account.
-2. Create a repository named `<org>.github.io` (site served at `https://<org>.github.io/`)
-   or any name (served at `https://<org>.github.io/<repo>/`).
-3. Push this folder:
-   ```sh
-   cd tue-pda-website
-   git init
-   git add .
-   git commit -m "PDA website"
-   git branch -M main
-   git remote add origin git@github.com:<org>/<repo>.git
-   git push -u origin main
-   ```
-4. In the repository: **Settings → Pages → Build and deployment → Source: Deploy from a branch**, branch `main`, folder `/ (root)`.
-5. The site is live within a minute. A custom domain (e.g. `pda.tue.nl`, if TU/e ICT agrees, or `tuepda.nl`) can be added under the same Pages settings with a CNAME record.
+- **https://pda-tue.nl/** is the main address. It is deployed from this repository
+  (`https://github.com/pda-board/website`, branch `main`, root) through the
+  university subdomain service. Pushing to `main` updates it.
+- **https://pda-board.github.io/website/** (GitHub Pages, same branch) stays on:
+  the 2026 GLOW Walk flyer's QR code points there.
 
 ## Editing
 
