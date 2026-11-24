@@ -4,7 +4,7 @@ Hi {{first_name}},
 
 Thanks for joining the TU/e Postdoc Association. You are now on our member list, so you will get our monthly newsletter and invitations to PDA events, including a few that are for members only.
 
-The PDA is run by a small board of postdocs, next to our day jobs. We organise drinks and social events, training and career sessions, and the yearly research pitch competition. We also bring postdoc concerns (contracts, onboarding, recognition, wellbeing) to the university, and we are part of PostdocNL, the national network.
+The PDA is run by a small board of postdocs, next to our day jobs. We organise drinks and social events, training and career sessions, and the yearly research pitch competition. We also bring postdoc concerns (contracts, onboarding, recognition, wellbeing) to the university, and we are a local network of PostdocNL, the national postdoc network.
 
 Questions or ideas? Just reply to this email: it reaches the whole board.
 
