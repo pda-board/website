@@ -68,6 +68,9 @@ def parse_body(body: str) -> dict:
     if not isinstance(ev, dict):
         raise IngestError("The ```json block must contain one event object ({...}), not a list.")
     ev.pop("sequence", None)
+    if ev.get("id") and isinstance(ev["id"], str) and not build.ID_RE.match(ev["id"]):
+        # e.g. an id built by the Power Automate flow from a title with odd characters
+        ev["id"] = slugify(ev["id"])
     if not ev.get("id"):
         if not isinstance(ev.get("title"), str) or not ev["title"].strip():
             raise IngestError("The event needs a 'title' (or an explicit 'id').")
