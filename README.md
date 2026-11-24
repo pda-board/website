@@ -121,6 +121,22 @@ CHROME="/Applications/Google Chrome.app/Contents/MacOS/Google Chrome"
 Print the PDF built from that image rather than Chrome's own "print to PDF":
 the neon glows do not survive as vectors. Web copies live in `img/flyers/`.
 
+## Automation for the board (Microsoft 365)
+
+Board members never need GitHub. Everything runs from Microsoft Forms, Teams and Outlook,
+with Power Automate flows owned by the website maintainer:
+
+| Form (Board group in Forms) | Flow | What happens |
+|---|---|---|
+| **Join the TU/e Postdoc Association** (website "Join" button) | PDA - New member from Join form | Adds the person to `PDA contacts.xlsx` (Contacts) and sends the welcome email |
+| **New PDA event** | PDA - New event | Logs the event (Events sheet), publishes it on the website (GitHub issue → `events.yml`), and if asked: emails a preview to the submitter, waits for their Approve, then emails all Active contacts in BCC batches of 400 |
+| **PDA newsletter** | PDA - Newsletter | Builds the newsletter from the intro text, optional news and the upcoming events in the Events sheet; preview → Approve → sent to all Active contacts |
+
+All emails go out from `postdoc_association@tue.nl`. The workbook `PDA contacts.xlsx` lives in the
+Board team's Files (General). Its `Templates` sheet holds the email HTML the flows use; regenerate it with
+`python3 tools/mail/flow_templates.py <workbook>` after changing `tools/mail/templates/`.
+To unsubscribe someone, set their Status to `Unsubscribed` (do not delete the row).
+
 ## Where the site is published
 
 - **https://pda-tue.nl/** is the main address. It is deployed from this repository
