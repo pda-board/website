@@ -1,0 +1,128 @@
+<!DOCTYPE html>
+<html lang="en" xmlns="http://www.w3.org/1999/xhtml" xmlns:v="urn:schemas-microsoft-com:vml" xmlns:o="urn:schemas-microsoft-com:office:office">
+<head>
+<!-- PDA-TEMPLATE
+  event_reminder: short reminder a few days before an event.
+  Plain-text twin: event_reminder.txt (same tokens).
+
+  Tokens (plain text):
+    preheader          one line shown in the inbox preview
+    event_title        Talking Science 2026
+    event_date         Friday 11 December 2026
+    event_time         14:00 – 16:00
+    event_when_phrase  "this Friday" / "tomorrow" / "on Friday 11 December"
+    event_location     Atlas 0.710, TU/e campus
+    reminder_note      e.g. "Registration is mandatory. If you haven't signed up yet, please do it today."
+    cta_url, cta_label main button (registration form or calendar file)
+    event_url          https://pda-tue.nl/events/<id>/
+    calendar_url       https://pda-tue.nl/cal/<id>.ics
+    unsubscribe_url    Microsoft Form link, or mailto:postdoc_association@tue.nl?subject=Unsubscribe
+-->
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<meta http-equiv="X-UA-Compatible" content="IE=edge">
+<meta name="x-apple-disable-message-reformatting">
+<meta name="format-detection" content="telephone=no, date=no, address=no, email=no">
+<meta name="color-scheme" content="light dark">
+<meta name="supported-color-schemes" content="light dark">
+<title>Reminder: {{event_title}}</title>
+<!--[if mso]>
+<noscript><xml><o:OfficeDocumentSettings><o:PixelsPerInch>96</o:PixelsPerInch></o:OfficeDocumentSettings></xml></noscript>
+<style>table, td, p, a, h1, h2, h3, span, li { font-family: Arial, Helvetica, sans-serif !important; }</style>
+<![endif]-->
+<style>
+  body { margin: 0; padding: 0; width: 100% !important; -webkit-text-size-adjust: 100%; -ms-text-size-adjust: 100%; }
+  table { border-collapse: collapse; mso-table-lspace: 0pt; mso-table-rspace: 0pt; }
+  img { border: 0; outline: none; text-decoration: none; -ms-interpolation-mode: bicubic; }
+  a { color: #C72125; }
+  @media screen and (max-width: 620px) {
+    .container { width: 100% !important; }
+    .px { padding-left: 20px !important; padding-right: 20px !important; }
+    .h1 { font-size: 24px !important; line-height: 30px !important; }
+  }
+  @media (prefers-color-scheme: dark) {
+    .bg-page { background-color: #111318 !important; }
+    .bg-card { background-color: #1B1E26 !important; }
+    .bg-soft { background-color: #252A36 !important; }
+    .t-ink { color: #F2F2F4 !important; }
+    .t-muted { color: #B8BAC2 !important; }
+    .t-navy { color: #C9D2F5 !important; }
+    .t-link { color: #FF8A8D !important; }
+    .bd { border-color: #3A3F4B !important; }
+  }
+  [data-ogsc] .bg-page { background-color: #111318 !important; }
+  [data-ogsc] .bg-card { background-color: #1B1E26 !important; }
+  [data-ogsc] .bg-soft { background-color: #252A36 !important; }
+  [data-ogsc] .t-ink { color: #F2F2F4 !important; }
+  [data-ogsc] .t-muted { color: #B8BAC2 !important; }
+  [data-ogsc] .t-navy { color: #C9D2F5 !important; }
+  [data-ogsc] .t-link { color: #FF8A8D !important; }
+</style>
+</head>
+<body class="bg-page" style="margin:0; padding:0; background-color:#F5F5F5;">
+<div style="display:none; max-height:0; overflow:hidden; mso-hide:all; font-size:1px; line-height:1px; color:#F5F5F5; opacity:0;">{{preheader}}&#8203;&nbsp;&#8203;&nbsp;&#8203;&nbsp;&#8203;&nbsp;&#8203;&nbsp;&#8203;&nbsp;&#8203;&nbsp;&#8203;&nbsp;</div>
+<table role="presentation" class="bg-page" width="100%" cellpadding="0" cellspacing="0" border="0" bgcolor="#F5F5F5" style="background-color:#F5F5F5;">
+<tr><td align="center" style="padding:24px 10px;">
+<!--[if mso]><table role="presentation" width="600" cellpadding="0" cellspacing="0" border="0" align="center"><tr><td><![endif]-->
+<table role="presentation" class="container" width="600" cellpadding="0" cellspacing="0" border="0" style="width:600px; max-width:600px;">
+
+  <!-- Logo -->
+  <tr><td class="px" bgcolor="#FFFFFF" style="background-color:#FFFFFF; border-top:4px solid #C72125; padding:20px 32px 16px 32px;">
+    <a href="https://pda-tue.nl/" style="text-decoration:none;"><img src="https://pda-tue.nl/img/logo.png" width="110" height="72" alt="TU/e Postdoc Association" style="display:block; width:110px; height:auto; border:0; font-family:Arial, Helvetica, sans-serif; font-size:16px; font-weight:bold; color:#C72125;"></a>
+  </td></tr>
+
+  <!-- Title band -->
+  <tr><td class="px" bgcolor="#0E2470" style="background-color:#0E2470; padding:28px 32px 28px 32px;">
+    <p style="margin:0 0 8px 0; font-family:Arial, Lato, Helvetica, sans-serif; font-size:12px; line-height:16px; letter-spacing:2px; text-transform:uppercase; font-weight:bold; color:#FFB8BA;">Reminder</p>
+    <h1 class="h1" style="margin:0; font-family:Arial, Lato, Helvetica, sans-serif; font-size:28px; line-height:34px; font-weight:bold; color:#FFFFFF;">{{event_title}}</h1>
+    <p style="margin:10px 0 0 0; font-family:Arial, Lato, Helvetica, sans-serif; font-size:16px; line-height:24px; color:#DDE2F2;">{{event_date}} &middot; {{event_time}}</p>
+  </td></tr>
+
+  <tr><td class="bg-card px" bgcolor="#FFFFFF" style="background-color:#FFFFFF; padding:28px 32px 8px 32px;">
+    <p class="t-ink" style="margin:0 0 20px 0; font-family:Arial, Lato, Helvetica, sans-serif; font-size:17px; line-height:26px; color:#1A1A1F;">A quick reminder: <strong>{{event_title}}</strong> is {{event_when_phrase}}.</p>
+    <table role="presentation" class="bg-soft" width="100%" cellpadding="0" cellspacing="0" border="0" bgcolor="#F5F5F5" style="background-color:#F5F5F5; border-left:4px solid #C72125;">
+      <tr><td style="padding:14px 18px 14px 18px;">
+        <table role="presentation" width="100%" cellpadding="0" cellspacing="0" border="0">
+          <tr>
+            <td class="t-muted" width="64" valign="top" style="padding:4px 0; font-family:Arial, Lato, Helvetica, sans-serif; font-size:13px; line-height:20px; font-weight:bold; text-transform:uppercase; letter-spacing:1px; color:#636363;">When</td>
+            <td class="t-ink" valign="top" style="padding:4px 0; font-family:Arial, Lato, Helvetica, sans-serif; font-size:15px; line-height:20px; color:#1A1A1F;">{{event_date}}, {{event_time}}</td>
+          </tr>
+          <tr>
+            <td class="t-muted" width="64" valign="top" style="padding:4px 0; font-family:Arial, Lato, Helvetica, sans-serif; font-size:13px; line-height:20px; font-weight:bold; text-transform:uppercase; letter-spacing:1px; color:#636363;">Where</td>
+            <td class="t-ink" valign="top" style="padding:4px 0; font-family:Arial, Lato, Helvetica, sans-serif; font-size:15px; line-height:20px; color:#1A1A1F;">{{event_location}}</td>
+          </tr>
+        </table>
+      </td></tr>
+    </table>
+    <table role="presentation" cellpadding="0" cellspacing="0" border="0" style="margin:24px 0 0 0;">
+      <tr><td align="left">
+        <!--[if mso]>
+        <v:roundrect xmlns:v="urn:schemas-microsoft-com:vml" xmlns:w="urn:schemas-microsoft-com:office:word" href="{{cta_url}}" style="height:46px; v-text-anchor:middle; width:220px;" arcsize="9%" stroke="f" fillcolor="#C72125">
+        <w:anchorlock/>
+        <center style="color:#FFFFFF; font-family:Arial, sans-serif; font-size:16px; font-weight:bold;">{{cta_label}}</center>
+        </v:roundrect>
+        <![endif]-->
+        <!--[if !mso]><!-- --><a href="{{cta_url}}" style="display:inline-block; background-color:#C72125; color:#FFFFFF; font-family:Arial, Lato, Helvetica, sans-serif; font-size:16px; font-weight:bold; line-height:46px; text-align:center; text-decoration:none; padding:0 28px; border-radius:4px; -webkit-text-size-adjust:none;">{{cta_label}}</a><!--<![endif]-->
+      </td></tr>
+    </table>
+    <p class="t-muted" style="margin:10px 0 20px 0; font-family:Arial, Lato, Helvetica, sans-serif; font-size:14px; line-height:20px; color:#636363;">{{reminder_note}}</p>
+  </td></tr>
+
+  <tr><td class="bg-card px" bgcolor="#FFFFFF" style="background-color:#FFFFFF; padding:8px 32px 32px 32px;">
+    <p class="t-ink" style="margin:0 0 16px 0; font-family:Arial, Lato, Helvetica, sans-serif; font-size:15px; line-height:22px; color:#1A1A1F;"><a class="t-link" href="{{event_url}}" style="color:#C72125; font-weight:bold;">Full details on the website</a> &nbsp;&middot;&nbsp; <a class="t-link" href="{{calendar_url}}" style="color:#C72125; font-weight:bold;">Add to your calendar</a></p>
+    <p class="t-ink" style="margin:0; font-family:Arial, Lato, Helvetica, sans-serif; font-size:16px; line-height:24px; color:#1A1A1F;">See you there,<br>The PDA board</p>
+  </td></tr>
+
+  <!-- Footer -->
+  <tr><td class="bg-page px" align="center" style="padding:24px 32px 8px 32px;">
+    <p class="t-muted" style="margin:0 0 8px 0; font-family:Arial, Lato, Helvetica, sans-serif; font-size:13px; line-height:20px; color:#636363;"><strong>TU/e Postdoc Association</strong> &middot; by postdocs, for postdocs</p>
+    <p class="t-muted" style="margin:0 0 8px 0; font-family:Arial, Lato, Helvetica, sans-serif; font-size:13px; line-height:20px; color:#636363;"><a class="t-link" href="mailto:postdoc_association@tue.nl" style="color:#C72125;">postdoc_association@tue.nl</a> &middot; <a class="t-link" href="https://pda-tue.nl/" style="color:#C72125;">pda-tue.nl</a> &middot; <a class="t-link" href="https://www.linkedin.com/groups/12373290/" style="color:#C72125;">LinkedIn</a> &middot; <a class="t-link" href="https://www.instagram.com/tuepda/" style="color:#C72125;">Instagram</a></p>
+    <p class="t-muted" style="margin:0; font-family:Arial, Lato, Helvetica, sans-serif; font-size:12px; line-height:18px; color:#636363;">You get this email because you are on the PDA mailing list. Don't want these emails? <a class="t-link" href="{{unsubscribe_url}}" style="color:#C72125;">Unsubscribe</a>, or reply with &ldquo;unsubscribe&rdquo;.</p>
+  </td></tr>
+
+</table>
+<!--[if mso]></td></tr></table><![endif]-->
+</td></tr>
+</table>
+</body>
+</html>

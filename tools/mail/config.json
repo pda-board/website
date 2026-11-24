@@ -1,0 +1,15 @@
+{
+  "_comment": "Settings for pdamail.py. Contact data and drafts must stay OUTSIDE this public repository.",
+  "sender_email": "postdoc_association@tue.nl",
+  "sender_name": "TU/e Postdoc Association",
+  "contacts_path": "~/Documents/PDA/contacts.xlsx",
+  "contacts_sheet": "Contacts",
+  "drafts_dir": "~/Documents/PDA/mail-drafts",
+  "events_path": "events/events.json",
+  "batch_size": 400,
+  "unsubscribe_url": "",
+  "site_base": "https://pda-tue.nl/",
+  "ics_uid_domain": "pda-board.github.io",
+  "newsletter_days_ahead": 120,
+  "welcome_events": 3
+}

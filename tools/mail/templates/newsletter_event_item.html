@@ -1,0 +1,19 @@
+<!-- PDA-TEMPLATE
+  newsletter_event_item: repeatable block, one per event; concatenate them into events_html
+  (used by newsletter.html and welcome_member.html).
+  Tokens (plain text):
+    event_date_short   Fri 11 Dec 2026   (or a label such as "December 2026")
+    event_time         14:00 – 16:00
+    event_title        Talking Science 2026
+    event_location     Atlas 0.710, TU/e campus
+    event_summary      one or two sentences
+    event_url          https://pda-tue.nl/events/<id>/
+    event_link_label   "Details and registration" / "Details"
+-->
+      <tr><td class="bd" style="padding:14px 0 14px 0; border-top:1px solid #E4E4E4;">
+        <p class="t-link" style="margin:0 0 4px 0; font-family:Arial, Lato, Helvetica, sans-serif; font-size:12px; line-height:16px; letter-spacing:1px; text-transform:uppercase; font-weight:bold; color:#C72125;">{{event_date_short}} &middot; {{event_time}}</p>
+        <p style="margin:0 0 4px 0; font-family:Arial, Lato, Helvetica, sans-serif; font-size:17px; line-height:24px; font-weight:bold;"><a class="t-navy" href="{{event_url}}" style="color:#0E2470; text-decoration:none;">{{event_title}}</a></p>
+        <p class="t-muted" style="margin:0 0 6px 0; font-family:Arial, Lato, Helvetica, sans-serif; font-size:14px; line-height:20px; color:#636363;">{{event_location}}</p>
+        <p class="t-ink" style="margin:0 0 6px 0; font-family:Arial, Lato, Helvetica, sans-serif; font-size:15px; line-height:22px; color:#1A1A1F;">{{event_summary}}</p>
+        <p style="margin:0; font-family:Arial, Lato, Helvetica, sans-serif; font-size:14px; line-height:20px;"><a class="t-link" href="{{event_url}}" style="color:#C72125; font-weight:bold;">{{event_link_label}} &rarr;</a></p>
+      </td></tr>

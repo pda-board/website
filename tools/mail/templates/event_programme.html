@@ -1,0 +1,11 @@
+<!-- PDA-TEMPLATE
+  event_programme: optional block for event_announcement (fills programme_html).
+  Tokens: programme_rows_html = one event_programme_row.html per programme line, concatenated.
+  Leave programme_html empty when there is no programme.
+-->
+<tr><td class="bg-card px" bgcolor="#FFFFFF" style="background-color:#FFFFFF; padding:8px 32px 16px 32px;">
+    <h2 class="t-navy" style="margin:0 0 10px 0; font-family:Arial, Lato, Helvetica, sans-serif; font-size:18px; line-height:24px; font-weight:bold; color:#0E2470;">Programme</h2>
+    <table role="presentation" width="100%" cellpadding="0" cellspacing="0" border="0">
+{{programme_rows_html}}
+    </table>
+  </td></tr>

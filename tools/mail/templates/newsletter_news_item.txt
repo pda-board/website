@@ -1,0 +1,4 @@
+* {{news_title}}
+{{news_body_text}}
+  Read more: {{news_link}}
+

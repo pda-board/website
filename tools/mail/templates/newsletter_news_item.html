@@ -1,0 +1,12 @@
+<!-- PDA-TEMPLATE
+  newsletter_news_item: repeatable block, one per news item, inside newsletter_news_section.html.
+  Tokens:
+    news_title       plain text
+    news_body_html   one or more <p> paragraphs
+    news_link        URL for "Read more" (use https://pda-tue.nl/ if there is nothing better)
+-->
+      <tr><td class="bd" style="padding:14px 0 10px 0; border-top:1px solid #E4E4E4;">
+        <p class="t-navy" style="margin:0 0 6px 0; font-family:Arial, Lato, Helvetica, sans-serif; font-size:17px; line-height:24px; font-weight:bold; color:#0E2470;">{{news_title}}</p>
+        {{news_body_html}}
+        <p style="margin:0 0 4px 0; font-family:Arial, Lato, Helvetica, sans-serif; font-size:14px; line-height:20px;"><a class="t-link" href="{{news_link}}" style="color:#C72125; font-weight:bold;">Read more &rarr;</a></p>
+      </td></tr>

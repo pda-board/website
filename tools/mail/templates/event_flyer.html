@@ -1,0 +1,9 @@
+<!-- PDA-TEMPLATE
+  event_flyer: optional block for event_announcement (fills flyer_html).
+  Tokens: flyer_image_url (absolute URL of the flyer image), flyer_link_url (PDF or full-size image),
+          event_title (used in the alt text)
+-->
+<tr><td class="bg-card px" align="center" bgcolor="#FFFFFF" style="background-color:#FFFFFF; padding:8px 32px 20px 32px;">
+    <a href="{{flyer_link_url}}" style="text-decoration:none;"><img src="{{flyer_image_url}}" width="260" alt="Flyer: {{event_title}}" style="display:block; width:260px; max-width:100%; height:auto; border:0; font-family:Arial, Helvetica, sans-serif; font-size:14px; color:#636363;"></a>
+    <p class="t-muted" style="margin:8px 0 0 0; font-family:Arial, Lato, Helvetica, sans-serif; font-size:13px; line-height:18px; color:#636363;"><a class="t-link" href="{{flyer_link_url}}" style="color:#C72125;">Open the flyer</a> to print or share it.</p>
+  </td></tr>

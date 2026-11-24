@@ -1,0 +1,11 @@
+<!-- PDA-TEMPLATE
+  newsletter_news_section: optional wrapper for news items (fills news_html in newsletter.html).
+  Tokens: news_items_html = newsletter_news_item.html blocks, concatenated.
+  Leave news_html empty when there is no news.
+-->
+<tr><td class="bg-card px" bgcolor="#FFFFFF" style="background-color:#FFFFFF; padding:16px 32px 8px 32px;">
+    <h2 class="t-navy" style="margin:0 0 6px 0; font-family:Arial, Lato, Helvetica, sans-serif; font-size:18px; line-height:24px; font-weight:bold; color:#0E2470;">News</h2>
+    <table role="presentation" width="100%" cellpadding="0" cellspacing="0" border="0">
+{{news_items_html}}
+    </table>
+  </td></tr>

@@ -1,0 +1,8 @@
+# Drafts, previews and contact data never belong in this public repo
+*.eml
+out/
+*.xlsx
+*.xls
+*.csv
+~$*
+__pycache__/

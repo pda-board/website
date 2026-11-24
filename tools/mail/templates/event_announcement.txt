@@ -1,0 +1,28 @@
+NEW PDA EVENT: {{event_title}}
+
+{{event_summary}}
+
+When:  {{event_date}}, {{event_time}}
+Where: {{event_location}}
+Price: {{event_price}}
+
+{{cta_label}}: {{cta_url}}
+{{registration_note}}
+
+{{event_description_text}}
+
+{{programme_text}}
+
+Full details: {{event_url}}
+Add to your calendar: {{calendar_url}}
+
+See you there,
+The PDA board
+
+--
+TU/e Postdoc Association - by postdocs, for postdocs
+postdoc_association@tue.nl | https://pda-tue.nl/
+LinkedIn: https://www.linkedin.com/groups/12373290/
+Instagram: https://www.instagram.com/tuepda/
+You get this email because you are on the PDA mailing list.
+Unsubscribe: {{unsubscribe_url}} (or reply with "unsubscribe")

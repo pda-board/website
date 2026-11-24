@@ -1,0 +1,108 @@
+<!DOCTYPE html>
+<html lang="en" xmlns="http://www.w3.org/1999/xhtml" xmlns:v="urn:schemas-microsoft-com:vml" xmlns:o="urn:schemas-microsoft-com:office:office">
+<head>
+<!-- PDA-TEMPLATE
+  newsletter: the monthly newsletter.
+  Plain-text twin: newsletter.txt (intro_text, events_text, news_text instead of the *_html tokens).
+
+  Tokens (plain text):
+    preheader          one line shown in the inbox preview
+    newsletter_title   December 2026
+    unsubscribe_url    Microsoft Form link, or mailto:postdoc_association@tue.nl?subject=Unsubscribe
+
+  Tokens holding ready-made HTML:
+    intro_html   one or more <p> paragraphs written by the board
+    events_html  newsletter_event_item.html blocks, concatenated (one per upcoming event)
+    news_html    newsletter_news_section.html filled with newsletter_news_item.html blocks; empty if no news
+-->
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<meta http-equiv="X-UA-Compatible" content="IE=edge">
+<meta name="x-apple-disable-message-reformatting">
+<meta name="format-detection" content="telephone=no, date=no, address=no, email=no">
+<meta name="color-scheme" content="light dark">
+<meta name="supported-color-schemes" content="light dark">
+<title>{{newsletter_title}}</title>
+<!--[if mso]>
+<noscript><xml><o:OfficeDocumentSettings><o:PixelsPerInch>96</o:PixelsPerInch></o:OfficeDocumentSettings></xml></noscript>
+<style>table, td, p, a, h1, h2, h3, span, li { font-family: Arial, Helvetica, sans-serif !important; }</style>
+<![endif]-->
+<style>
+  body { margin: 0; padding: 0; width: 100% !important; -webkit-text-size-adjust: 100%; -ms-text-size-adjust: 100%; }
+  table { border-collapse: collapse; mso-table-lspace: 0pt; mso-table-rspace: 0pt; }
+  img { border: 0; outline: none; text-decoration: none; -ms-interpolation-mode: bicubic; }
+  a { color: #C72125; }
+  @media screen and (max-width: 620px) {
+    .container { width: 100% !important; }
+    .px { padding-left: 20px !important; padding-right: 20px !important; }
+    .h1 { font-size: 24px !important; line-height: 30px !important; }
+  }
+  @media (prefers-color-scheme: dark) {
+    .bg-page { background-color: #111318 !important; }
+    .bg-card { background-color: #1B1E26 !important; }
+    .bg-soft { background-color: #252A36 !important; }
+    .t-ink { color: #F2F2F4 !important; }
+    .t-muted { color: #B8BAC2 !important; }
+    .t-navy { color: #C9D2F5 !important; }
+    .t-link { color: #FF8A8D !important; }
+    .bd { border-color: #3A3F4B !important; }
+  }
+  [data-ogsc] .bg-page { background-color: #111318 !important; }
+  [data-ogsc] .bg-card { background-color: #1B1E26 !important; }
+  [data-ogsc] .bg-soft { background-color: #252A36 !important; }
+  [data-ogsc] .t-ink { color: #F2F2F4 !important; }
+  [data-ogsc] .t-muted { color: #B8BAC2 !important; }
+  [data-ogsc] .t-navy { color: #C9D2F5 !important; }
+  [data-ogsc] .t-link { color: #FF8A8D !important; }
+</style>
+</head>
+<body class="bg-page" style="margin:0; padding:0; background-color:#F5F5F5;">
+<div style="display:none; max-height:0; overflow:hidden; mso-hide:all; font-size:1px; line-height:1px; color:#F5F5F5; opacity:0;">{{preheader}}&#8203;&nbsp;&#8203;&nbsp;&#8203;&nbsp;&#8203;&nbsp;&#8203;&nbsp;&#8203;&nbsp;&#8203;&nbsp;&#8203;&nbsp;</div>
+<table role="presentation" class="bg-page" width="100%" cellpadding="0" cellspacing="0" border="0" bgcolor="#F5F5F5" style="background-color:#F5F5F5;">
+<tr><td align="center" style="padding:24px 10px;">
+<!--[if mso]><table role="presentation" width="600" cellpadding="0" cellspacing="0" border="0" align="center"><tr><td><![endif]-->
+<table role="presentation" class="container" width="600" cellpadding="0" cellspacing="0" border="0" style="width:600px; max-width:600px;">
+
+  <!-- Logo -->
+  <tr><td class="px" bgcolor="#FFFFFF" style="background-color:#FFFFFF; border-top:4px solid #C72125; padding:20px 32px 16px 32px;">
+    <a href="https://pda-tue.nl/" style="text-decoration:none;"><img src="https://pda-tue.nl/img/logo.png" width="110" height="72" alt="TU/e Postdoc Association" style="display:block; width:110px; height:auto; border:0; font-family:Arial, Helvetica, sans-serif; font-size:16px; font-weight:bold; color:#C72125;"></a>
+  </td></tr>
+
+  <!-- Title band -->
+  <tr><td class="px" bgcolor="#0E2470" style="background-color:#0E2470; padding:28px 32px 28px 32px;">
+    <p style="margin:0 0 8px 0; font-family:Arial, Lato, Helvetica, sans-serif; font-size:12px; line-height:16px; letter-spacing:2px; text-transform:uppercase; font-weight:bold; color:#FFB8BA;">PDA newsletter</p>
+    <h1 class="h1" style="margin:0; font-family:Arial, Lato, Helvetica, sans-serif; font-size:28px; line-height:34px; font-weight:bold; color:#FFFFFF;">{{newsletter_title}}</h1>
+  </td></tr>
+
+  <tr><td class="bg-card px" bgcolor="#FFFFFF" style="background-color:#FFFFFF; padding:28px 32px 8px 32px;">
+    {{intro_html}}
+  </td></tr>
+
+  <tr><td class="bg-card px" bgcolor="#FFFFFF" style="background-color:#FFFFFF; padding:16px 32px 8px 32px;">
+    <h2 class="t-navy" style="margin:0 0 6px 0; font-family:Arial, Lato, Helvetica, sans-serif; font-size:18px; line-height:24px; font-weight:bold; color:#0E2470;">Upcoming events</h2>
+    <table role="presentation" width="100%" cellpadding="0" cellspacing="0" border="0">
+{{events_html}}
+    </table>
+    <p class="t-ink" style="margin:12px 0 16px 0; font-family:Arial, Lato, Helvetica, sans-serif; font-size:15px; line-height:22px; color:#1A1A1F;"><a class="t-link" href="https://pda-tue.nl/#events" style="color:#C72125; font-weight:bold;">All events on the website</a></p>
+  </td></tr>
+
+  {{news_html}}
+
+  <tr><td class="bg-card px" bgcolor="#FFFFFF" style="background-color:#FFFFFF; padding:16px 32px 32px 32px;">
+    <p class="t-ink" style="margin:0 0 16px 0; font-family:Arial, Lato, Helvetica, sans-serif; font-size:16px; line-height:24px; color:#1A1A1F;">Got news, a question or an idea for an event? Just reply to this email.</p>
+    <p class="t-ink" style="margin:0; font-family:Arial, Lato, Helvetica, sans-serif; font-size:16px; line-height:24px; color:#1A1A1F;">Best wishes,<br>The PDA board</p>
+  </td></tr>
+
+  <!-- Footer -->
+  <tr><td class="bg-page px" align="center" style="padding:24px 32px 8px 32px;">
+    <p class="t-muted" style="margin:0 0 8px 0; font-family:Arial, Lato, Helvetica, sans-serif; font-size:13px; line-height:20px; color:#636363;"><strong>TU/e Postdoc Association</strong> &middot; by postdocs, for postdocs</p>
+    <p class="t-muted" style="margin:0 0 8px 0; font-family:Arial, Lato, Helvetica, sans-serif; font-size:13px; line-height:20px; color:#636363;"><a class="t-link" href="mailto:postdoc_association@tue.nl" style="color:#C72125;">postdoc_association@tue.nl</a> &middot; <a class="t-link" href="https://pda-tue.nl/" style="color:#C72125;">pda-tue.nl</a> &middot; <a class="t-link" href="https://www.linkedin.com/groups/12373290/" style="color:#C72125;">LinkedIn</a> &middot; <a class="t-link" href="https://www.instagram.com/tuepda/" style="color:#C72125;">Instagram</a></p>
+    <p class="t-muted" style="margin:0; font-family:Arial, Lato, Helvetica, sans-serif; font-size:12px; line-height:18px; color:#636363;">You get this email because you are on the PDA mailing list. Don't want these emails? <a class="t-link" href="{{unsubscribe_url}}" style="color:#C72125;">Unsubscribe</a>, or reply with &ldquo;unsubscribe&rdquo;.</p>
+  </td></tr>
+
+</table>
+<!--[if mso]></td></tr></table><![endif]-->
+</td></tr>
+</table>
+</body>
+</html>

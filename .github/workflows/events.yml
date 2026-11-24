@@ -1,0 +1,155 @@
+# Events: keep the generated event pages, lists and calendar files in sync with
+# events/events.json, and turn `new-event` issues into events.
+#
+# The site itself is still published by GitHub Pages "Deploy from a branch"
+# (main, root) and by pda-tue.nl pulling the repo: this workflow only commits
+# the generated files back to main.
+name: Events
+
+on:
+  push:
+    branches: [main]
+    paths:
+      - "events/events.json"
+      - "tools/site/**"
+  issues:
+    types: [opened, edited, labeled]
+  schedule:
+    # Daily, so events move from "Upcoming" to "Past" after they happen.
+    - cron: "17 3 * * *"
+  workflow_dispatch:
+
+permissions:
+  contents: write
+  issues: write
+
+concurrency:
+  group: events-main
+  cancel-in-progress: false
+
+jobs:
+  build:
+    name: Build event pages
+    if: github.event_name != 'issues' && github.actor != 'github-actions[bot]'
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v4
+        with:
+          ref: main
+      - uses: actions/setup-python@v5
+        with:
+          python-version: "3.12"
+      - name: Build
+        run: python3 tools/site/build.py
+      - name: Commit generated files
+        run: |
+          git config user.name "github-actions[bot]"
+          git config user.email "41898282+github-actions[bot]@users.noreply.github.com"
+          git add -A index.html events cal
+          if git diff --cached --quiet; then
+            echo "Generated files are up to date."
+            exit 0
+          fi
+          git commit -m "Rebuild event pages from events.json"
+          git pull --rebase origin main
+          git push origin HEAD:main
+
+  ingest:
+    name: Add event from issue
+    if: >-
+      github.event_name == 'issues' &&
+      github.event.issue.state == 'open' &&
+      contains(github.event.issue.labels.*.name, 'new-event')
+    runs-on: ubuntu-latest
+    env:
+      GH_TOKEN: ${{ github.token }}
+      ISSUE_NUMBER: ${{ github.event.issue.number }}
+      ISSUE_BODY: ${{ github.event.issue.body }}
+    steps:
+      - uses: actions/checkout@v4
+        with:
+          ref: main
+      - uses: actions/setup-python@v5
+        with:
+          python-version: "3.12"
+
+      # "opened" and "labeled" both fire when an issue is created with the label;
+      # a marker with the hash of the body makes the second run a no-op.
+      - name: Skip if this issue body was already processed
+        id: dedupe
+        run: |
+          hash=$(printf '%s' "$ISSUE_BODY" | sha256sum | cut -c1-16)
+          echo "hash=$hash" >> "$GITHUB_OUTPUT"
+          if gh api "repos/${GITHUB_REPOSITORY}/issues/${ISSUE_NUMBER}/comments" --paginate --jq '.[].body' \
+              | grep -q "pda-events-bot:$hash"; then
+            echo "skip=true" >> "$GITHUB_OUTPUT"
+          else
+            echo "skip=false" >> "$GITHUB_OUTPUT"
+          fi
+
+      - name: Parse issue and update events.json
+        id: ingest
+        if: steps.dedupe.outputs.skip == 'false'
+        continue-on-error: true
+        run: python3 tools/site/ingest_issue.py --github-output "$GITHUB_OUTPUT" --error-file "$RUNNER_TEMP/error.txt"
+
+      - name: Report validation error
+        if: steps.dedupe.outputs.skip == 'false' && steps.ingest.outcome == 'failure'
+        run: |
+          {
+            echo "Could not add this event:"
+            echo
+            echo '```'
+            cat "$RUNNER_TEMP/error.txt" 2>/dev/null || echo "Unexpected error, see the workflow log."
+            echo '```'
+            echo
+            echo "Edit the issue body to fix it; the event is processed again automatically."
+            echo
+            echo "<!-- pda-events-bot:${{ steps.dedupe.outputs.hash }} -->"
+          } > "$RUNNER_TEMP/comment.md"
+          gh issue comment "$ISSUE_NUMBER" --repo "$GITHUB_REPOSITORY" --body-file "$RUNNER_TEMP/comment.md"
+          exit 1
+
+      - name: Build, commit and push
+        if: steps.dedupe.outputs.skip == 'false' && steps.ingest.outcome == 'success'
+        env:
+          EVENT_ID: ${{ steps.ingest.outputs.id }}
+          ACTION: ${{ steps.ingest.outputs.action }}
+        run: |
+          python3 tools/site/build.py
+          git config user.name "github-actions[bot]"
+          git config user.email "41898282+github-actions[bot]@users.noreply.github.com"
+          git add -A index.html events cal
+          if git diff --cached --quiet; then
+            echo "No change: the event was already up to date."
+            exit 0
+          fi
+          git commit -m "Event ${ACTION}: ${EVENT_ID} (from #${ISSUE_NUMBER})"
+          for i in 1 2 3; do
+            git push origin HEAD:main && exit 0
+            git pull --rebase origin main
+            python3 tools/site/build.py
+            git add -A index.html events cal
+            git diff --cached --quiet || git commit -m "Rebuild after rebase"
+          done
+          exit 1
+
+      - name: Comment and close
+        if: steps.dedupe.outputs.skip == 'false' && steps.ingest.outcome == 'success'
+        env:
+          EVENT_URL: ${{ steps.ingest.outputs.url }}
+          EVENT_ID: ${{ steps.ingest.outputs.id }}
+          ACTION: ${{ steps.ingest.outputs.action }}
+        run: |
+          {
+            echo "Event ${ACTION}: **${EVENT_ID}**"
+            echo
+            echo "Page: ${EVENT_URL}"
+            echo "Also on GitHub Pages: https://pda-board.github.io/website/events/${EVENT_ID}/"
+            echo
+            echo "It can take a few minutes before the sites show the change."
+            echo
+            echo "<!-- pda-events-bot:${{ steps.dedupe.outputs.hash }} -->"
+          } > "$RUNNER_TEMP/comment.md"
+          gh issue comment "$ISSUE_NUMBER" --repo "$GITHUB_REPOSITORY" --body-file "$RUNNER_TEMP/comment.md"
+          gh issue close "$ISSUE_NUMBER" --repo "$GITHUB_REPOSITORY" --reason completed

@@ -1,0 +1,274 @@
+[
+  {
+    "id": "borrel-glow-walk-2026",
+    "title": "Borrel & GLOW Walk",
+    "type": "social",
+    "tags": [
+      "Social"
+    ],
+    "start": "2026-11-10T17:30",
+    "end": "2026-11-10T20:00",
+    "date_label": null,
+    "time_label": "From 17:30",
+    "location": "Zwarte Doos, TU/e campus",
+    "location_url": null,
+    "summary": "A free borrel, then a walk together through the GLOW light festival. Registration is mandatory.",
+    "description": "Drinks with fellow postdocs at De Zwarte Doos, then we head out together into GLOW, Eindhoven's festival of light.\n\nThe borrel is free, but registration is mandatory. [Flyer (PDF)](flyers/glow-walk-2026.pdf)",
+    "programme": [
+      {
+        "time": "17:30",
+        "item": "Free borrel at De Zwarte Doos"
+      },
+      {
+        "time": "Then",
+        "item": "We walk to GLOW together"
+      }
+    ],
+    "registration_url": "https://forms.cloud.microsoft/Pages/ResponsePage.aspx?id=R_J9zM5gD0qddXBM9g78ZPzD6NflTR5GhTnMLs4-eVxURFVLRTFSVVpGTlQxUFdMNU5BQzFUMVc5TS4u",
+    "registration_required": true,
+    "price": "Free",
+    "image": "img/flyers/glow-walk-2026.jpg",
+    "flyer_pdf": "flyers/glow-walk-2026.pdf",
+    "external_url": null,
+    "featured": true,
+    "past_cta": null,
+    "published": true,
+    "sequence": 3
+  },
+  {
+    "id": "talking-science-2026",
+    "title": "Talking Science 2026",
+    "type": "career",
+    "tags": [
+      "Pitch competition",
+      "Free"
+    ],
+    "start": "2026-12-11T14:00",
+    "end": "2026-12-11T16:00",
+    "date_label": null,
+    "time_label": "14:00 – 16:00, drinks after",
+    "location": "Atlas 0.710, TU/e campus",
+    "location_url": null,
+    "summary": "Thirteen PhD, EngD and postdoc researchers pitch their own research in three minutes. Jury prizes of €750 and €500, plus a €500 audience prize. Organised by the TU/e Communication Expertise Center as part of WinTU/er Wonderland.",
+    "description": "TU/e pitch competition for PhD, EngD and postdoc researchers, followed by drinks. Organised by the TU/e Communication Expertise Center as part of WinTU/er Wonderland.\n\nThirteen researchers pitch their own research in three minutes. The jury awards prizes of €750 and €500, and the audience picks the winner of a €500 audience prize.\n\n[Details on tue.nl](https://www.tue.nl/universiteit/calendar-and-events/11-12-2026-talking-science-2026)",
+    "programme": [],
+    "registration_url": null,
+    "registration_required": false,
+    "price": "Free",
+    "image": null,
+    "flyer_pdf": null,
+    "external_url": "https://www.tue.nl/universiteit/calendar-and-events/11-12-2026-talking-science-2026",
+    "featured": false,
+    "past_cta": null,
+    "published": true,
+    "sequence": 1
+  },
+  {
+    "id": "winter-village-quizzmas-2026",
+    "title": "Winter Village Quizzmas",
+    "type": "social",
+    "tags": [
+      "Social",
+      "With Nexus"
+    ],
+    "start": null,
+    "end": null,
+    "date_label": "TBA Dec 2026",
+    "time_label": null,
+    "location": "Winter Village, TU/e campus",
+    "location_url": null,
+    "summary": "A Christmas quiz together with Nexus, the PhD Association. Date and details to be announced.",
+    "description": "A Christmas quiz together with Nexus, the PhD Association, at the Winter Village on campus. Date and details to be announced: members get the invitation by email.",
+    "programme": [],
+    "registration_url": null,
+    "registration_required": false,
+    "price": null,
+    "image": null,
+    "flyer_pdf": null,
+    "external_url": null,
+    "featured": false,
+    "past_cta": null,
+    "published": true,
+    "sequence": 0
+  },
+  {
+    "id": "best-paper-award-2026",
+    "title": "Best Paper Award 2026",
+    "type": "award",
+    "tags": [
+      "Best Paper Award"
+    ],
+    "start": null,
+    "end": null,
+    "date_label": "15 Jun 2026",
+    "time_label": null,
+    "location": "Zwarte Doos Filmzaal",
+    "location_url": null,
+    "summary": "Ten three-minute pitches moderated by Barry W. Fitzgerald, co-organised with EIRES. Two jury prizes and an audience award.",
+    "description": "Ten three-minute pitches moderated by Barry W. Fitzgerald, co-organised with EIRES. Two jury prizes and an audience award.",
+    "programme": [],
+    "registration_url": null,
+    "registration_required": false,
+    "price": null,
+    "image": null,
+    "flyer_pdf": null,
+    "external_url": null,
+    "featured": false,
+    "past_cta": {
+      "label": "About the award",
+      "href": "#award"
+    },
+    "published": true,
+    "sequence": 0
+  },
+  {
+    "id": "best-paper-award-2025",
+    "title": "Best Paper Award 2025",
+    "type": "award",
+    "tags": [
+      "Best Paper Award"
+    ],
+    "start": null,
+    "end": null,
+    "date_label": "21 Oct 2025",
+    "time_label": null,
+    "location": "Zwarte Doos Filmzaal",
+    "location_url": null,
+    "summary": "The 2025 edition of the PDA's research pitch competition.",
+    "description": "The 2025 edition of the PDA's research pitch competition.",
+    "programme": [],
+    "registration_url": null,
+    "registration_required": false,
+    "price": null,
+    "image": null,
+    "flyer_pdf": null,
+    "external_url": null,
+    "featured": false,
+    "past_cta": {
+      "label": "About the award",
+      "href": "#award"
+    },
+    "published": true,
+    "sequence": 0
+  },
+  {
+    "id": "best-paper-award-2024",
+    "title": "Best Paper Award 2024",
+    "type": "award",
+    "tags": [
+      "Best Paper Award"
+    ],
+    "start": null,
+    "end": null,
+    "date_label": "27 May 2024",
+    "time_label": null,
+    "location": "TU/e campus",
+    "location_url": null,
+    "summary": "Postdocs present their published work to a broad audience; prizes up to €750.",
+    "description": "Postdocs present their published work to a broad audience; prizes up to €750.",
+    "programme": [],
+    "registration_url": null,
+    "registration_required": false,
+    "price": null,
+    "image": null,
+    "flyer_pdf": null,
+    "external_url": null,
+    "featured": false,
+    "past_cta": {
+      "label": "About the award",
+      "href": "#award"
+    },
+    "published": true,
+    "sequence": 0
+  },
+  {
+    "id": "best-paper-award-2022",
+    "title": "Best Paper Award 2022",
+    "type": "award",
+    "tags": [
+      "Best Paper Award"
+    ],
+    "start": null,
+    "end": null,
+    "date_label": "13 May 2022",
+    "time_label": null,
+    "location": "Zwarte Doos Filmzaal",
+    "location_url": null,
+    "summary": "Ten finalists pitched, chaired by Barry W. Fitzgerald, and the PDA celebrated its second anniversary.",
+    "description": "Ten finalists pitched, chaired by Barry W. Fitzgerald, and the PDA celebrated its second anniversary.",
+    "programme": [],
+    "registration_url": null,
+    "registration_required": false,
+    "price": null,
+    "image": null,
+    "flyer_pdf": null,
+    "external_url": null,
+    "featured": false,
+    "past_cta": {
+      "label": "About the award",
+      "href": "#award"
+    },
+    "published": true,
+    "sequence": 0
+  },
+  {
+    "id": "science-is-here-podcast-2021",
+    "title": "“Science is here” podcast: the postdoc experience",
+    "type": "social",
+    "tags": [
+      "Community"
+    ],
+    "start": null,
+    "end": null,
+    "date_label": "Dec 2021",
+    "time_label": null,
+    "location": "",
+    "location_url": null,
+    "summary": "Board members talk with Barry Fitzgerald about life as a postdoc at TU/e and why the association was founded.",
+    "description": "Board members talk with Barry Fitzgerald about life as a postdoc at TU/e and why the association was founded.\n\n[Read more on tue.nl](https://www.tue.nl/en/news-and-events/news-overview/10-12-2021-tue-postdoc-association-has-the-postdoc-community-at-heart)",
+    "programme": [],
+    "registration_url": null,
+    "registration_required": false,
+    "price": null,
+    "image": null,
+    "flyer_pdf": null,
+    "external_url": "https://www.tue.nl/en/news-and-events/news-overview/10-12-2021-tue-postdoc-association-has-the-postdoc-community-at-heart",
+    "featured": false,
+    "past_cta": {
+      "label": "Read more",
+      "href": "https://www.tue.nl/en/news-and-events/news-overview/10-12-2021-tue-postdoc-association-has-the-postdoc-community-at-heart"
+    },
+    "published": true,
+    "sequence": 0
+  },
+  {
+    "id": "best-paper-award-2021",
+    "title": "Best Paper Award 2021 — the first edition",
+    "type": "award",
+    "tags": [
+      "Best Paper Award"
+    ],
+    "start": null,
+    "end": null,
+    "date_label": "10 Jun 2021",
+    "time_label": null,
+    "location": "",
+    "location_url": null,
+    "summary": "An initiative of the PDA and TU/e's research institutes: ten papers selected from 25 submissions.",
+    "description": "An initiative of the PDA and TU/e's research institutes: ten papers selected from 25 submissions.",
+    "programme": [],
+    "registration_url": null,
+    "registration_required": false,
+    "price": null,
+    "image": null,
+    "flyer_pdf": null,
+    "external_url": null,
+    "featured": false,
+    "past_cta": {
+      "label": "About the award",
+      "href": "#award"
+    },
+    "published": true,
+    "sequence": 0
+  }
+]

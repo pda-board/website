@@ -1,0 +1,5 @@
+* {{event_title}}
+  {{event_date_short}}, {{event_time}} | {{event_location}}
+  {{event_summary}}
+  {{event_link_label}}: {{event_url}}
+
