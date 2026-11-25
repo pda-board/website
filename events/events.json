@@ -270,31 +270,5 @@
     },
     "published": true,
     "sequence": 0
-  },
-  {
-    "id": "test-contradiction-guard-2026",
-    "title": "TEST contradiction guard",
-    "type": "other",
-    "tags": [],
-    "start": "2026-12-22T12:00",
-    "end": null,
-    "date_label": null,
-    "time_label": null,
-    "location": "Nowhere (test)",
-    "location_url": null,
-    "summary": "Test: all-members email combined with a test event must not go to members.",
-    "description": "",
-    "programme": [],
-    "registration_url": null,
-    "registration_required": false,
-    "price": "Free",
-    "image": null,
-    "flyer_pdf": null,
-    "external_url": null,
-    "featured": false,
-    "past_cta": null,
-    "published": false,
-    "cancelled": false,
-    "sequence": 0
   }
 ]
