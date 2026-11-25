@@ -49,13 +49,13 @@ CHIP_CLASS = {"social": "type-social", "career": "type-career", "workshop": "typ
 FIELDS = ["id", "title", "type", "tags", "start", "end", "date_label", "time_label",
           "location", "location_url", "summary", "description", "programme",
           "registration_url", "registration_required", "price", "image", "flyer_pdf",
-          "external_url", "featured", "past_cta", "published", "sequence"]
+          "external_url", "featured", "past_cta", "published", "cancelled", "sequence"]
 REQUIRED = ["id", "title", "type", "summary"]
 DEFAULTS = {"tags": [], "start": None, "end": None, "date_label": None, "time_label": None,
             "location": "", "location_url": None, "description": "", "programme": [],
             "registration_url": None, "registration_required": False, "price": None,
             "image": None, "flyer_pdf": None, "external_url": None, "featured": False,
-            "past_cta": None, "published": True, "sequence": 0}
+            "past_cta": None, "published": True, "cancelled": False, "sequence": 0}
 
 MONTHS = ["Jan", "Feb", "Mar", "Apr", "May", "Jun", "Jul", "Aug", "Sep", "Oct", "Nov", "Dec"]
 MONTHS_LONG = ["January", "February", "March", "April", "May", "June", "July", "August",
@@ -205,7 +205,7 @@ def validate(events) -> list:
                     errors.append("%s: '%s' must be relative to the site root, like img/flyers/x.jpg" % (where, key))
                 elif not (ROOT / v).is_file():
                     errors.append("%s: '%s' file not found: %s" % (where, key, v))
-        for key in ("registration_required", "featured", "published"):
+        for key in ("registration_required", "featured", "published", "cancelled"):
             if key in ev and not isinstance(ev[key], bool):
                 errors.append("%s: '%s' must be true or false" % (where, key))
         tags = ev.get("tags", [])
@@ -264,6 +264,10 @@ class Event:
         return self.d[key]
 
     @property
+    def cancelled(self) -> bool:
+        return bool(self.d.get("cancelled"))
+
+    @property
     def dated(self) -> bool:
         return self.start is not None
 
@@ -313,7 +317,7 @@ def split_events(events):
 
 
 def next_event(upcoming):
-    dated = [e for e in upcoming if e.dated]
+    dated = [e for e in upcoming if e.dated and not e.cancelled]
     for e in dated:
         if e["featured"]:
             return e
@@ -555,8 +559,8 @@ def location_html(e: Event) -> str:
 
 def event_row(e: Event, prefix: str, reveal: bool, indent: str) -> str:
     past = not e.upcoming
-    cls = "event" + (" past" if past else "") + (" reveal" if reveal else "")
-    meta = []
+    cls = "event" + (" past" if past else "") + (" cancelled" if e.cancelled else "") + (" reveal" if reveal else "")
+    meta = ['<strong class="cancelled-label">Cancelled</strong>'] if e.cancelled else []
     if not past and e.time_text():
         meta.append(esc(e.time_text()))
     if e["location"]:
@@ -582,6 +586,8 @@ def event_row(e: Event, prefix: str, reveal: bool, indent: str) -> str:
         else:
             cta = '<a class="btn btn-ghost event-cta" href="%s#join">Join the PDA</a>' % prefix
         action = '<div class="event-actions">%s%s</div>' % (cta, share_menu(e, prefix))
+        if e.cancelled:
+            action = '<div class="event-actions"><span class="badge-cancelled">Cancelled</span></div>'
     i2, i3 = indent + "  ", indent + "    "
     return "\n".join([
         '%s<li class="%s">' % (indent, cls),
@@ -813,7 +819,7 @@ def event_page(e: Event) -> str:
     out.append('<section class="event-page" aria-labelledby="eventTitle">\n  <div class="container %s">' % grid)
     m = ['    <div class="event-main">',
          '      <a class="back-link" href="../">← All events</a>',
-         '      <span class="eyebrow">%s · %s</span>' % (esc(TYPE_LABEL[e["type"]]), "Upcoming event" if e.upcoming else "Past event"),
+         '      <span class="eyebrow">%s · %s</span>' % (esc(TYPE_LABEL[e["type"]]), "Cancelled" if e.cancelled else ("Upcoming event" if e.upcoming else "Past event")),
          '      <h1 id="eventTitle">%s</h1>' % esc(e["title"]),
          '      <p class="lede">%s</p>' % esc(e["summary"]),
          '      %s' % chips(e),
@@ -826,10 +832,12 @@ def event_page(e: Event) -> str:
     if e["price"]:
         m.append('        <div><dt>Price</dt><dd>%s</dd></div>' % esc(e["price"]))
     m.append('      </dl>')
-    if not e.upcoming:
+    if e.cancelled:
+        m.append('      <p class="event-note"><strong>This event has been cancelled.</strong> See <a href="../">what else is coming up</a>.</p>')
+    elif not e.upcoming:
         m.append('      <p class="event-note">This event has taken place. See <a href="../">what is coming up</a>.</p>')
     ctas = []
-    if e.upcoming and e["registration_url"]:
+    if e.upcoming and e["registration_url"] and not e.cancelled:
         ctas.append('<a class="btn btn-primary" href="%s">Register <span class="arrow" aria-hidden="true">→</span></a>'
                     % esc(e["registration_url"]))
     if e["flyer_pdf"]:
@@ -840,7 +848,7 @@ def event_page(e: Event) -> str:
         ctas.append('<a class="btn btn-ghost" href="%s">%s</a>' % (esc(href(P, e["past_cta"]["href"])), esc(e["past_cta"]["label"])))
     if ctas:
         m.append('      <div class="event-cta-row">%s</div>' % "".join(ctas))
-    if e.upcoming and e["registration_url"]:
+    if e.upcoming and e["registration_url"] and not e.cancelled:
         m.append('      <p class="muted">%s</p>' % esc(registration_note(e)))
     desc = markdown(e["description"] or e["summary"], P)
     m += ['      <div class="event-block">', '        <h2>About this event</h2>',
@@ -849,7 +857,7 @@ def event_page(e: Event) -> str:
         m += ['      <div class="event-block">', '        <h2>Programme</h2>', '        <ol class="event-programme">']
         m += ['          <li><span>%s</span>%s</li>' % (esc(p["time"]), esc(p["item"])) for p in e["programme"]]
         m += ['        </ol>', '      </div>']
-    if e.dated and e.upcoming:
+    if e.dated and e.upcoming and not e.cancelled:
         m += ['      <div class="event-block">', '        <h2>Add to your calendar</h2>',
               '        %s' % button_grid(calendar_entries(e, P)), '      </div>']
     m += ['      <div class="event-block"%s>' % share_attrs(e), '        <h2>Share this event</h2>',
@@ -927,7 +935,9 @@ def unfold(text: str):
 
 def vevent_lines(e: Event):
     lines = ["DTSTART:" + utc_stamp(e.start), "DTEND:" + utc_stamp(e.cal_end),
-             "SUMMARY:" + ics_escape(e["title"])]
+             "SUMMARY:" + ics_escape(("Cancelled: " if e.cancelled else "") + e["title"])]
+    if e.cancelled:
+        lines.append("STATUS:CANCELLED")
     if e["location"]:
         lines.append("LOCATION:" + ics_escape(calendar_location(e)))
     lines.append("DESCRIPTION:" + ics_escape(calendar_body(e)))
@@ -944,7 +954,7 @@ def ics_file(e: Event, sequence: int, dtstamp: str) -> str:
     return "\r\n".join(fold(l) for l in lines) + "\r\n"
 
 
-ICS_PROPS = ("DTSTART", "DTEND", "SUMMARY", "LOCATION", "DESCRIPTION", "URL")
+ICS_PROPS = ("DTSTART", "DTEND", "SUMMARY", "STATUS", "LOCATION", "DESCRIPTION", "URL")
 
 
 def ics_versions(events, raw_by_id: dict, now: dt.datetime) -> dict:
@@ -1032,9 +1042,12 @@ def build(today: dt.date, now: dt.datetime) -> list:
             shutil.rmtree(d)
             changed.append("events/%s/ (removed)" % d.name)
 
+    # An event taken off the website keeps its .ics, marked cancelled, so calendars that imported it update.
+    gone = [Event(dict(r, cancelled=True), today) for r in raw
+            if not r.get("published", True) and (ROOT / "cal" / ("%s.ics" % r["id"])).exists()]
     before = dump_events(raw)
-    versions = ics_versions(events, {r["id"]: r for r in raw}, now)
-    for e in events:
+    versions = ics_versions(events + gone, {r["id"]: r for r in raw}, now)
+    for e in events + gone:
         if e.id in versions:
             seq, stamp = versions[e.id]
             write_if_changed(ROOT / "cal" / ("%s.ics" % e.id), ics_file(e, seq, stamp), changed)

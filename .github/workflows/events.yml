@@ -14,6 +14,10 @@ on:
       - "tools/site/**"
   issues:
     types: [opened, edited, labeled]
+  # The Power Automate flows email event commands to the "event inbox" issue
+  # through GitHub's reply-by-email; they arrive as comments by pda-board.
+  issue_comment:
+    types: [created]
   schedule:
     # Daily, so events move from "Upcoming" to "Past" after they happen.
     - cron: "17 3 * * *"
@@ -26,7 +30,7 @@ permissions:
 jobs:
   build:
     name: Build event pages
-    if: github.event_name != 'issues' && github.actor != 'github-actions[bot]'
+    if: contains(fromJSON('["push","schedule","workflow_dispatch"]'), github.event_name) && github.actor != 'github-actions[bot]'
     concurrency:
       group: events-build
       cancel-in-progress: true
@@ -168,3 +172,90 @@ jobs:
         run: |
           gh issue comment "$ISSUE_NUMBER" --repo "$GITHUB_REPOSITORY" --body \
             "Something went wrong while adding this event (see the Actions tab). Nothing was published yet. Ask the website maintainer, or close this issue and submit the form again."
+
+  inbox-ready:
+    name: Open the event inbox
+    if: >-
+      github.event_name == 'issues' && github.event.action == 'opened' &&
+      github.event.issue.user.login == 'pda-board' &&
+      startsWith(github.event.issue.title, '[event-inbox]')
+    runs-on: ubuntu-latest
+    env:
+      GH_TOKEN: ${{ github.token }}
+    steps:
+      - name: Say hello (sends pda-board the notification email whose reply address the flows use)
+        run: |
+          gh issue comment "${{ github.event.issue.number }}" --repo "$GITHUB_REPOSITORY" --body \
+            "Event inbox ready. The Power Automate flows email new events and changes here; each one becomes a comment and is applied to the website automatically. Do not close or lock this issue."
+
+  inbox:
+    name: Apply an emailed event command
+    if: >-
+      github.event_name == 'issue_comment' &&
+      startsWith(github.event.issue.title, '[event-inbox]') &&
+      github.event.issue.user.login == 'pda-board' &&
+      github.event.comment.user.login == 'pda-board' &&
+      contains(github.event.comment.body, 'PDA-EVENT-BEGIN')
+    concurrency:
+      group: events-inbox-${{ github.event.comment.id }}
+      cancel-in-progress: false
+    runs-on: ubuntu-latest
+    env:
+      GH_TOKEN: ${{ github.token }}
+      ISSUE_NUMBER: ${{ github.event.issue.number }}
+      COMMENT_ID: ${{ github.event.comment.id }}
+      ISSUE_BODY: ${{ github.event.comment.body }}
+    steps:
+      - uses: actions/checkout@v4
+        with:
+          ref: main
+      - uses: actions/setup-python@v5
+        with:
+          python-version: "3.12"
+      - name: Apply the command to events.json
+        id: ingest
+        continue-on-error: true
+        run: python3 tools/site/ingest_issue.py --github-output "$GITHUB_OUTPUT" --error-file "$RUNNER_TEMP/error.txt"
+      - name: Report the error
+        if: steps.ingest.outcome == 'failure'
+        run: |
+          {
+            echo "Could not apply this change:"
+            echo
+            echo '```'
+            cat "$RUNNER_TEMP/error.txt" 2>/dev/null || echo "Unexpected error, see the workflow log."
+            echo '```'
+            echo
+            echo "Nothing was changed on the website. Fill in the form again."
+          } > "$RUNNER_TEMP/comment.md"
+          gh issue comment "$ISSUE_NUMBER" --repo "$GITHUB_REPOSITORY" --body-file "$RUNNER_TEMP/comment.md"
+          exit 1
+      - name: Build, commit and push
+        if: steps.ingest.outcome == 'success'
+        env:
+          EVENT_ID: ${{ steps.ingest.outputs.id }}
+          ACTION: ${{ steps.ingest.outputs.action }}
+        run: |
+          python3 tools/site/build.py
+          git config user.name "github-actions[bot]"
+          git config user.email "41898282+github-actions[bot]@users.noreply.github.com"
+          git add -A index.html events cal
+          if git diff --cached --quiet; then echo "No change."; exit 0; fi
+          git commit -m "Event ${ACTION}: ${EVENT_ID} (emailed)"
+          for i in 1 2 3 4 5; do
+            git push origin HEAD:main && exit 0
+            sleep $((i * 3))
+            git pull --rebase origin main
+            python3 tools/site/build.py
+            git add -A index.html events cal
+            git diff --cached --quiet || git commit -m "Rebuild after rebase"
+          done
+          exit 1
+      - name: Mark the comment as done
+        if: steps.ingest.outcome == 'success'
+        run: gh api -X POST "repos/${GITHUB_REPOSITORY}/issues/comments/${COMMENT_ID}/reactions" -f content='+1' >/dev/null
+      - name: Tell the board something went wrong
+        if: (failure() || cancelled()) && steps.ingest.outcome == 'success'
+        run: |
+          gh issue comment "$ISSUE_NUMBER" --repo "$GITHUB_REPOSITORY" --body \
+            "The change was understood but could not be published (see the Actions tab). Ask the website maintainer."

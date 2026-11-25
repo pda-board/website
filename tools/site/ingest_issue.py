@@ -20,6 +20,8 @@ message there.
 from __future__ import annotations
 
 import argparse
+import base64
+import binascii
 import datetime as dt
 import json
 import os
@@ -32,6 +34,10 @@ sys.path.insert(0, str(Path(__file__).resolve().parent))
 import build  # noqa: E402
 
 FENCE_RE = re.compile(r"```[ \t]*json[ \t]*\r?\n(.*?)\r?\n[ \t]*```", re.S | re.I)
+# Sent by the Power Automate flows through GitHub's reply-by-email: base64 survives
+# the line wrapping and quote mangling that email clients apply to plain JSON.
+B64_RE = re.compile(r"PDA-EVENT-BEGIN\s+([A-Za-z0-9+/=\s]+?)\s*PDA-EVENT-END")
+ACTIONS = ("add", "update", "cancel", "restore", "remove")
 
 
 class IngestError(Exception):
@@ -55,7 +61,14 @@ def event_year(ev: dict) -> str:
 
 
 def parse_body(body: str) -> dict:
-    blocks = FENCE_RE.findall(body or "")
+    b64 = B64_RE.findall(body or "")
+    if b64:
+        try:
+            blocks = [base64.b64decode(re.sub(r"\s+", "", b64[0]), validate=True).decode("utf-8")]
+        except (binascii.Error, UnicodeDecodeError):
+            raise IngestError("The PDA-EVENT block is not valid base64.")
+    else:
+        blocks = FENCE_RE.findall(body or "")
     if not blocks:
         raise IngestError("No ```json block found in the issue. Paste the event as a JSON object "
                           "between a line with ```json and a line with ```.")
@@ -69,6 +82,12 @@ def parse_body(body: str) -> dict:
     if not isinstance(ev, dict):
         raise IngestError("The ```json block must contain one event object ({...}), not a list.")
     ev.pop("sequence", None)
+    action = ev.get("action", "add")
+    if action not in ACTIONS:
+        raise IngestError("Unknown action %r; use one of %s." % (action, ", ".join(ACTIONS)))
+    if action != "add":
+        return ev
+    ev.pop("action", None)
     if ev.get("id") and isinstance(ev["id"], str) and not build.ID_RE.match(ev["id"]):
         # e.g. an id built by the Power Automate flow from a title with odd characters
         ev["id"] = slugify(ev["id"])
@@ -115,12 +134,58 @@ def ordered(ev: dict) -> dict:
     return out
 
 
+def find_event(events: list, ref) -> dict:
+    """An event by id, by the link to its page, or by its exact title (case and spaces ignored)."""
+    if not isinstance(ref, str) or not ref.strip():
+        raise IngestError("Say which event: paste the link to its page, or its exact title.")
+    ref = ref.strip()
+    m = re.search(r"/events/([a-z0-9-]+)", ref)
+    key = m.group(1) if m else ref
+    hit = [e for e in events if e.get("id") == key]
+    if not hit:
+        norm = lambda s: re.sub(r"\s+", " ", (s or "").strip().lower())
+        hit = [e for e in events if norm(e.get("title")) == norm(ref)]
+        if len(hit) > 1:  # same title in several years: take the latest
+            hit = sorted(hit, key=lambda e: e.get("start") or "", reverse=True)[:1]
+    if not hit:
+        raise IngestError("No event matches %r. Paste the link to the event page instead." % ref)
+    return hit[0]
+
+
+def change(events: list, cmd: dict):
+    """Apply an update/cancel/restore/remove command. Returns (events, id, action)."""
+    action = cmd.pop("action")
+    target = find_event(events, cmd.pop("event", None) or cmd.get("id"))
+    cmd.pop("id", None)
+    new = dict(target)
+    if action == "update":
+        fields = {k: v for k, v in cmd.items() if k in build.FIELDS and v not in (None, "", [])}
+        if not fields:
+            raise IngestError("Nothing to change: fill in at least one field.")
+        new.update(fields)
+    elif action == "cancel":
+        new["cancelled"] = True
+    elif action == "restore":
+        new["cancelled"], new["published"] = False, True
+    elif action == "remove":
+        new["published"] = False
+    out = [ordered(new) if e is target else e for e in events]
+    return out, new["id"], {"update": "updated", "cancel": "cancelled", "restore": "restored", "remove": "removed"}[action]
+
+
 def ingest(body: str, events_path: Path):
     ev = parse_body(body)
     try:
         events = json.loads(events_path.read_text(encoding="utf-8"))
     except (OSError, json.JSONDecodeError) as exc:
         raise IngestError("Cannot read %s: %s" % (events_path, exc))
+    if ev.get("action", "add") != "add":
+        new, eid, action = change(events, ev)
+        errors = build.validate(new)
+        if errors:
+            raise IngestError("The change does not pass validation:\n- " + "\n- ".join(errors))
+        events_path.write_text(build.dump_events(new), encoding="utf-8")
+        return eid, action
     resolve_id(events, ev)
     new, action = upsert(events, ev)
     errors = build.validate(new)
