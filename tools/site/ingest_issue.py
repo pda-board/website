@@ -63,10 +63,19 @@ def event_year(ev: dict) -> str:
 def parse_body(body: str) -> dict:
     b64 = B64_RE.findall(body or "")
     if b64:
-        try:
-            blocks = [base64.b64decode(re.sub(r"\s+", "", b64[0]), validate=True).decode("utf-8")]
-        except (binascii.Error, UnicodeDecodeError):
-            raise IngestError("The PDA-EVENT block is not valid base64.")
+        raw = re.sub(r"\s+", "", b64[0])
+        blocks = []
+        # Mail clients may auto-capitalise the first letter of a line ("eyJ" -> "EyJ").
+        for cand in (raw, raw[:1].lower() + raw[1:]):
+            try:
+                text = base64.b64decode(cand, validate=True).decode("utf-8")
+                json.loads(text)
+                blocks = [text]
+                break
+            except (binascii.Error, UnicodeDecodeError, ValueError):
+                continue
+        if not blocks:
+            raise IngestError("The PDA-EVENT block could not be read (not valid base64 JSON).")
     else:
         blocks = FENCE_RE.findall(body or "")
     if not blocks:
