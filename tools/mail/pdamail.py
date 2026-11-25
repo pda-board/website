@@ -206,6 +206,8 @@ BULLET_RE = re.compile(r"^\s*[-*]\s+")
 def _inline_html(text):
     out, pos = [], 0
     for m in LINK_RE.finditer(text):
+        if not re.match(r"(?i)^(https?:|mailto:)", m.group(2)):
+            continue  # only web and mailto links; anything else stays as plain text
         out.append(html.escape(text[pos:m.start()], quote=False))
         out.append(f'<a class="t-link" href="{html.escape(m.group(2))}" style="color:#C72125;">'
                    f'{html.escape(m.group(1), quote=False)}</a>')

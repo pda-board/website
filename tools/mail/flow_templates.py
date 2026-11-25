@@ -7,9 +7,12 @@ template from that table and fill the remaining {{tokens}} with replace().
 This script pre-fills what the flows do not need to vary (unsubscribe link,
 empty optional blocks) so each flow only replaces a handful of tokens.
 
-    python3 tools/mail/flow_templates.py ~/Documents/PDA/"PDA contacts.xlsx"
+    python3 tools/mail/flow_templates.py --print          # print the rows
 
-Then upload the workbook (or paste the Html cells into the online copy).
+Then paste the Html cells into the ONLINE workbook by hand. Never upload a
+locally edited copy over the live workbook: the flows add contacts to it all
+the time (they would be lost) and recreating the table can change its id,
+which breaks the flows.
 """
 import re
 import sys
@@ -80,4 +83,8 @@ def main(path):
 
 
 if __name__ == "__main__":
-    main(sys.argv[1])
+    if sys.argv[1:] == ["--print"]:
+        for name, subject, html_ in rows():
+            print("=== %s | %s\n%s\n" % (name, subject, html_))
+    else:
+        main(sys.argv[1])  # writes a LOCAL workbook copy only
