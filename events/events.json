@@ -270,31 +270,5 @@
     },
     "published": true,
     "sequence": 0
-  },
-  {
-    "id": "test-automatic-publishing-three-2026",
-    "title": "TEST automatic publishing three",
-    "type": "other",
-    "tags": [],
-    "start": "2026-12-21T12:00",
-    "end": null,
-    "date_label": null,
-    "time_label": null,
-    "location": "Nowhere (test)",
-    "location_url": null,
-    "summary": "Test of automatic publishing, will be removed in a few minutes.",
-    "description": "",
-    "programme": [],
-    "registration_url": null,
-    "registration_required": false,
-    "price": "Free",
-    "image": null,
-    "flyer_pdf": null,
-    "external_url": null,
-    "featured": false,
-    "past_cta": null,
-    "published": true,
-    "cancelled": false,
-    "sequence": 0
   }
 ]
