@@ -121,6 +121,14 @@ CHROME="/Applications/Google Chrome.app/Contents/MacOS/Google Chrome"
 Print the PDF built from that image rather than Chrome's own "print to PDF":
 the neon glows do not survive as vectors. Web copies live in `img/flyers/`.
 
+### How pda-tue.nl stays up to date
+
+Every push to `main` triggers a GitHub webhook to `https://pda-tue.nl/deploy-hook.php`.
+That page checks GitHub's signature and asks Plesk (from the server itself) to pull the repo,
+and Plesk deploys `main` to `/httpdocs` automatically. The secret and the Plesk link live in
+`deploy-hook-config.php` in the site's home folder (outside `httpdocs`, not in this repo).
+If the hook ever breaks, the site keeps working: use **Pull now** in Plesk → Git.
+
 ## Automation for the board (Microsoft 365)
 
 Board members never need GitHub. Everything runs from Microsoft Forms, Teams and Outlook,
