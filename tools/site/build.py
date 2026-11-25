@@ -20,6 +20,7 @@ from __future__ import annotations
 
 import argparse
 import datetime as dt
+import email.utils
 import html
 import json
 import os
@@ -1013,6 +1014,32 @@ def write_if_changed(path: Path, content: str, changed: list, newline: str = "\n
     changed.append(str(path.relative_to(ROOT)))
 
 
+def upcoming_feed(upcoming) -> str:
+    """RSS of the upcoming events that are online and not cancelled. The newsletter flow
+    reads it (RSS connector), so the newsletter always matches the website. Each item has
+    exactly four categories, in this order: date, time, place, "registration"/"details"."""
+    x = lambda s: html.escape(str(s), quote=False)
+    L = ['<?xml version="1.0" encoding="UTF-8"?>', '<rss version="2.0"><channel>',
+         "<title>TU/e Postdoc Association: upcoming events</title>",
+         "<link>%sevents/</link>" % SITE,
+         "<description>Upcoming events of the TU/e Postdoc Association</description>"]
+    for e in upcoming:
+        if e.cancelled:
+            continue
+        reg = e["registration_required"] and e["registration_url"]
+        cats = [e.date_text(), e.time_text() or "Time to be announced",
+                e["location"] or "Place to be announced", "registration" if reg else "details"]
+        L += ["<item>", "<title>%s</title>" % x(e["title"]), "<link>%s</link>" % e.url,
+              '<guid isPermaLink="true">%s</guid>' % e.url,
+              "<description>%s</description>" % x(e["summary"]),
+              "<pubDate>%s</pubDate>" % email.utils.format_datetime(
+                  e.start if e.start else e.sort_key.replace(tzinfo=TZ))]
+        L += ["<category>%s</category>" % x(c) for c in cats]
+        L.append("</item>")
+    L.append("</channel></rss>")
+    return "\n".join(L) + "\n"
+
+
 def build(today: dt.date, now: dt.datetime) -> list:
     raw = load_events()
     events = [Event(r, today) for r in raw if r.get("published", True)]
@@ -1033,6 +1060,7 @@ def build(today: dt.date, now: dt.datetime) -> list:
     for e in events:
         write_if_changed(ROOT / "events" / e.id / "index.html", event_page(e), changed)
     write_if_changed(ROOT / "events" / "index.html", events_index(upcoming, past), changed)
+    write_if_changed(ROOT / "events" / "upcoming.xml", upcoming_feed(upcoming), changed)
 
     # Remove generated pages of events that were deleted or unpublished.
     keep = {e.id for e in events}
