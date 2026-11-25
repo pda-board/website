@@ -135,8 +135,8 @@ with Power Automate flows owned by the website maintainer:
 | Form (Board group in Forms) | Flow | What happens |
 |---|---|---|
 | **Join the TU/e Postdoc Association** (website "Join" button) | PDA - New member from Join form | Adds the person to `PDA contacts.xlsx` (Contacts) and sends the welcome email |
-| **New PDA event** | PDA - New event | Logs the event (Events sheet), confirms to the submitter and publishes it on the site by itself (see below). "Put this event on the website? No, this is a test" stores it unpublished. Optional announcement email, see *Who gets the email* |
-| **PDA newsletter** | PDA - Newsletter | Builds the newsletter from the intro text, optional news and the upcoming events in the Events sheet; preview → Approve → sent, see *Who gets the email* |
+| **New PDA event** | PDA - New event | Confirms to the submitter and publishes the event on the site by itself (see below). "Put this event on the website? No, this is a test" stores it unpublished. Optional announcement email, see *Who gets the email* |
+| **PDA newsletter** | PDA - Newsletter | Builds the newsletter from the intro text, optional news and the upcoming events of the website (RSS `events/upcoming.xml`, so cancelled, removed and test events never appear); preview → Approve → sent, see *Who gets the email* |
 | **Change or cancel a PDA event** | PDA - Change or cancel event | Change details, cancel (page stays, marked Cancelled, calendars updated), remove from the site, or undo a cancellation/removal. Event = its page link or exact title. Confirms to the submitter; never emails members |
 
 The board forms are restricted to the Board group and are also tabs in the Board team's General channel.
@@ -151,8 +151,26 @@ If a change does not show up, look at the latest comment on the `[event-inbox]` 
 *All PDA members* (after the submitter approves a preview), *The board only (test)*, or
 *Selected board members only (test)* with their addresses in the next question. Board addresses come from
 the Board team's member list; typed addresses match even when written as an alias (dots are ignored), and
-anything that is not a board member is dropped. Test sends get `[TEST]` in the subject and the approval
-title says who will receive it. The shared mailbox is always in To, so it also keeps a copy.
+anything that is not a board member is dropped (one per line, commas, semicolons and pasted
+`Name <address>` lists all work). "All PDA members" needs the exact option text, and on the event form it
+also needs the event to be on the website; anything else falls back to the selected-members list. Test sends
+get `[TEST]` in the subject and the approval title says who will receive it. Approvals cannot be reassigned
+and expire after 3 days (nothing is sent). The shared mailbox is always in To, so it also keeps a copy.
+
+**When something goes wrong.** Publishing errors are posted as a comment on the `[event-inbox]` issue
+(GitHub notifies pda-board, i.e. the shared mailbox). Never close or lock that issue. A new event never
+overwrites an existing one with the same page address (except a hidden test/removed one); changes go through
+the change form. If a flow run fails half-way through a mass email, do not resubmit it: check the run history.
+
+**Handing over to a new maintainer.** Everything runs as the maintainer's TU/e account. Before leaving:
+1. Add the successor as co-owner of the four flows (New event, Newsletter, Change or cancel, New member).
+2. Give them Send As / Full Access on `postdoc_association@tue.nl`.
+3. Re-create every connection (Forms, Excel, Approvals, Teams, Outlook, RSS) under their account and re-test.
+4. Hand over the pda-board GitHub password and 2FA recovery codes; its password reset goes to the shared mailbox.
+5. The inbox reply address is stored in the New event and Change flows (Send an HTTP request body); if the
+   `[event-inbox]` issue is ever re-created, update both.
+6. Hand over the Plesk login and the webhook secret (`~/deploy-hook-config.php` on the server and the GitHub
+   webhook settings).
 
 All emails go out from `postdoc_association@tue.nl`. The workbook `PDA contacts.xlsx` lives in the
 Board team's Files (General). Its `Templates` sheet holds the email HTML the flows use; regenerate it with
