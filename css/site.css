@@ -1,3 +1,4 @@
+@import url("fonts.css");
 /* ----------------------------------------------------------------
    Tokens — palette derived from the TU/e house style
    (red #C72125, navy #0E2470, greys #636363 / #D3D3D3 / #F5F5F5)
@@ -402,8 +403,8 @@ p { margin: 0; }
 @media (max-width: 860px) { .footer-grid { grid-template-columns: 1fr; gap: 2rem; } }
 
 /* ---------------- Reveal ---------------- */
-.reveal { opacity: 0; transform: translateY(12px); transition: opacity .5s ease, transform .5s ease; }
-.reveal.in { opacity: 1; transform: none; }
+.js .reveal { opacity: 0; transform: translateY(12px); transition: opacity .5s ease, transform .5s ease; }
+.js .reveal.in { opacity: 1; transform: none; }
 @media (prefers-reduced-motion: reduce) { .reveal { opacity: 1; transform: none; transition: none; } .btn .arrow { transition: none; } }
 
 /* ================================================================

@@ -117,12 +117,19 @@ def parse_label(label: str):
     return first, last, big, small
 
 
-def is_rel_or_url(value) -> bool:
-    if not isinstance(value, str) or value.strip() == "":
+def safe_url(value) -> bool:
+    """A link the site may print: a relative path or #anchor, or an absolute
+    http(s)/mailto URL. No whitespace or control characters anywhere (browsers
+    strip them, which is how ' javascript:' or 'java\tscript:' sneak through)."""
+    if not isinstance(value, str) or value == "" or re.search(r"[\x00-\x20\x7f]", value):
         return False
-    v = value.strip()
-    # relative links are fine; absolute ones only for web and email
-    return not SCHEME_RE.match(v) or re.match(r"(?i)^(https?:|mailto:)", v) is not None
+    if re.match(r"(?i)^(https?://|mailto:)", value):
+        return True
+    return not re.match(r"^[^/?#]*:", value) and not value.startswith("//")
+
+
+def is_rel_or_url(value) -> bool:
+    return safe_url(value)
 
 
 def validate(events) -> list:
@@ -186,7 +193,7 @@ def validate(events) -> list:
                 errors.append("%s: '%s' must be a string or null" % (where, key))
         for key in ("location_url", "registration_url", "external_url"):
             v = ev.get(key)
-            if isinstance(v, str) and v and not re.match(r"^(https?:|mailto:)", v):
+            if isinstance(v, str) and v and not (safe_url(v) and re.match(r"(?i)^(https?://|mailto:)", v)):
                 errors.append("%s: '%s' must be an absolute http(s) or mailto link" % (where, key))
         for key in ("image", "flyer_pdf"):
             v = ev.get(key)
@@ -215,7 +222,7 @@ def validate(events) -> list:
         if not isinstance(sq, int) or isinstance(sq, bool) or sq < 0:
             errors.append("%s: 'sequence' must be a non-negative integer (calendar SEQUENCE)" % where)
         cta = ev.get("past_cta")
-        if cta is not None and not (isinstance(cta, dict) and is_rel_or_url(cta.get("label"))
+        if cta is not None and not (isinstance(cta, dict) and isinstance(cta.get("label"), str) and cta["label"].strip() != ""
                                     and is_rel_or_url(cta.get("href")) and set(cta) <= {"label", "href"}):
             errors.append("%s: 'past_cta' must be null or {\"label\": str, \"href\": str}" % where)
     return errors
@@ -345,7 +352,7 @@ def markdown(text: str, prefix: str) -> str:
         for m in LINK_RE.finditer(para):
             parts.append(esc(para[pos:m.start()]))
             label, url = m.group(1), m.group(2)
-            if url.lower().startswith(("javascript:", "data:", "vbscript:")):
+            if not safe_url(url):
                 parts.append(esc(label))
             else:
                 parts.append('<a href="%s">%s</a>' % (esc(href(prefix, url)), esc(label)))
@@ -696,10 +703,7 @@ def spotlight(e) -> str:
 
 # ---------------------------------------------------------------- page chrome
 
-FONTS = ('<link rel="preconnect" href="https://fonts.googleapis.com">\n'
-         '<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>\n'
-         '<link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Urbanist:wght@600;700;800&amp;'
-         'family=Lato:ital,wght@0,400;0,700;1,400&amp;family=IBM+Plex+Mono:wght@500&amp;display=swap">')
+FONTS = ""  # fonts are self-hosted: css/site.css imports css/fonts.css
 
 NAV_SCRIPT = """<script>
 (function () {
