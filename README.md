@@ -157,6 +157,14 @@ also needs the event to be on the website; anything else falls back to the selec
 get `[TEST]` in the subject and the approval title says who will receive it. Approvals cannot be reassigned
 and expire after 3 days (nothing is sent). The shared mailbox is always in To, so it also keeps a copy.
 
+**Pictures in emails.** Both emailing forms have an optional question "Picture … link to an image". If it
+holds an https:// link, the image appears in the email (newsletter: below the introduction; event invite:
+above the description), 536 px wide. Email programs only show images that are online, so put the file on
+the website first: upload it to `img/email/` in pda-board/website on GitHub (drag and drop, Commit) and use
+`https://pda-tue.nl/img/email/<file>` a minute later. Wide pictures (about 2:1, 1072 px wide) look best.
+To change the design of all emails instead, edit `tools/mail/templates/` and update the Templates sheet
+(`python3 tools/mail/flow_templates.py --print`, paste the Html cell online).
+
 **When something goes wrong.** Publishing errors are posted as a comment on the `[event-inbox]` issue.
 GitHub notifies pda-board (the shared mailbox), and the flow **PDA - Website errors to maintainer** forwards
 every GitHub email about `pda-board/website` (error comments, failed runs) to the maintainer,
