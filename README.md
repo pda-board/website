@@ -135,7 +135,7 @@ with Power Automate flows owned by the website maintainer:
 | Form (Board group in Forms) | Flow | What happens |
 |---|---|---|
 | **Join the TU/e Postdoc Association** (website "Join" button) | PDA - New member from Join form | Adds the person to `PDA contacts.xlsx` (Contacts) and sends the welcome email |
-| **New PDA event** | PDA - New event | Confirms to the submitter and publishes the event on the site by itself (see below). "Put this event on the website? No, this is a test" stores it unpublished. Optional announcement email, see *Who gets the email* |
+| **New PDA event** | PDA - New event | Confirms to the submitter and publishes the event on the site by itself (see below). "Put this event on the website? No, this is a test" keeps it entirely off GitHub and the site (the flow skips the inbox email); only the test emails go out. Optional announcement email, see *Who gets the email* |
 | **PDA newsletter** | PDA - Newsletter | Builds the newsletter from the intro text, optional news and the upcoming events of the website (RSS `events/upcoming.xml`, so cancelled, removed and test events never appear); preview → Approve → sent, see *Who gets the email* |
 | **Change or cancel a PDA event** | PDA - Change or cancel event | Change details, cancel (page stays, marked Cancelled, calendars updated), remove from the site, or undo a cancellation/removal. Event = its page link or exact title. Confirms to the submitter; never emails members |
 
