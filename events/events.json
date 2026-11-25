@@ -270,5 +270,31 @@
     },
     "published": true,
     "sequence": 0
+  },
+  {
+    "id": "test-picture-invite-2026",
+    "title": "TEST picture invite",
+    "type": "other",
+    "tags": [],
+    "start": "2026-12-23T12:00",
+    "end": null,
+    "date_label": null,
+    "time_label": null,
+    "location": "Nowhere (test)",
+    "location_url": null,
+    "summary": "Test of the optional picture in the event invite.",
+    "description": "",
+    "programme": [],
+    "registration_url": null,
+    "registration_required": false,
+    "price": "Free",
+    "image": null,
+    "flyer_pdf": null,
+    "external_url": null,
+    "featured": false,
+    "past_cta": null,
+    "published": false,
+    "cancelled": false,
+    "sequence": 0
   }
 ]
