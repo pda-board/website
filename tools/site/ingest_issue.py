@@ -130,11 +130,16 @@ def resolve_id(events: list, ev: dict) -> None:
 def upsert(events: list, ev: dict):
     """Return (new_events, action). An existing id is never overwritten: the change
     form is the only way to edit an event. Delivering the same event twice is a no-op."""
-    for old in events:
+    for i, old in enumerate(events):
         if old.get("id") == ev["id"]:
             merged = ordered(dict(old, **ev))
             if merged == old:
                 return events, "unchanged"
+            if old.get("published", True) is False:
+                # A test or removed event is not on the site: the new submission replaces it.
+                full = dict(build.DEFAULTS, **ev)
+                full["sequence"] = old.get("sequence", 0)
+                return events[:i] + [ordered(full)] + events[i + 1:], "added"
             raise IngestError("An event with the page address %r already exists. To change it, use "
                               "the form 'Change or cancel a PDA event'." % ev["id"])
     full = dict(build.DEFAULTS)
