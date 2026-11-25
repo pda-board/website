@@ -106,6 +106,10 @@ def parse_body(body: str) -> dict:
         year = event_year(ev)
         slug = slugify(ev["title"])
         ev["id"] = slug if slug.endswith(year) else "%s-%s" % (slug, year)
+    for k in ("start", "end"):
+        v = ev.get(k)
+        if isinstance(v, str) and len(v) > 11 and v[10] == "T":
+            ev[k] = "%sT%s" % (v[:10], clock(v[11:]))
     return ev
 
 
@@ -124,14 +128,15 @@ def resolve_id(events: list, ev: dict) -> None:
 
 
 def upsert(events: list, ev: dict):
-    """Return (new_events, action). Keeps the schema field order."""
-    for i, old in enumerate(events):
+    """Return (new_events, action). An existing id is never overwritten: the change
+    form is the only way to edit an event. Delivering the same event twice is a no-op."""
+    for old in events:
         if old.get("id") == ev["id"]:
-            merged = dict(old)
-            merged.update(ev)
-            out = list(events)
-            out[i] = ordered(merged)
-            return out, "updated"
+            merged = ordered(dict(old, **ev))
+            if merged == old:
+                return events, "unchanged"
+            raise IngestError("An event with the page address %r already exists. To change it, use "
+                              "the form 'Change or cancel a PDA event'." % ev["id"])
     full = dict(build.DEFAULTS)
     full.update(ev)
     return events + [ordered(full)], "added"
@@ -146,18 +151,20 @@ def ordered(ev: dict) -> dict:
 def find_event(events: list, ref) -> dict:
     """An event by id, by the link to its page, or by its exact title (case and spaces ignored)."""
     if not isinstance(ref, str) or not ref.strip():
-        raise IngestError("Say which event: paste the link to its page, or its exact title.")
+        raise IngestError("Say which event: paste the link to its page.")
     ref = ref.strip()
-    m = re.search(r"/events/([a-z0-9-]+)", ref)
-    key = m.group(1) if m else ref
+    m = re.search(r"/events/([a-z0-9-]+)", ref.lower())
+    key = m.group(1) if m else ref.lower()
     hit = [e for e in events if e.get("id") == key]
     if not hit:
         norm = lambda s: re.sub(r"\s+", " ", (s or "").strip().lower())
         hit = [e for e in events if norm(e.get("title")) == norm(ref)]
-        if len(hit) > 1:  # same title in several years: take the latest
-            hit = sorted(hit, key=lambda e: e.get("start") or "", reverse=True)[:1]
+        if len(hit) > 1:
+            hit = [e for e in hit if e.get("published", True)] or hit
+        if len(hit) > 1:
+            raise IngestError("Several events are called %r. Paste the link to the event page instead." % ref)
     if not hit:
-        raise IngestError("No event matches %r. Paste the link to the event page instead." % ref)
+        raise IngestError("No event matches %r. Paste the link to the event page." % ref)
     return hit[0]
 
 
@@ -171,6 +178,32 @@ def clock(value):
     return "%02d:%s" % (int(m.group(1)), m.group(2))
 
 
+UPDATABLE = ("location", "registration_url", "price", "summary", "description")
+
+
+def new_times(target: dict, date, t_start, t_end) -> dict:
+    """New start/end from a new date and/or times, keeping what is not given.
+    Moving the start keeps the duration; an end before the start is the next day."""
+    fmt = "%Y-%m-%dT%H:%M"
+    old_start, old_end = target.get("start"), target.get("end")
+    d = date or (old_start or "")[:10]
+    if not re.match(r"^\d{4}-\d{2}-\d{2}$", d):
+        raise IngestError("This event has no date yet: give the new date too.")
+    ts = t_start or (old_start or "")[11:16]
+    if not ts:
+        raise IngestError("This event has no start time yet: give the new start time too.")
+    start = dt.datetime.strptime("%sT%s" % (d, ts), fmt)
+    out = {"start": start.strftime(fmt), "date_label": None, "time_label": None}
+    if t_end:
+        end = dt.datetime.strptime("%sT%s" % (d, t_end), fmt)
+        if end <= start:
+            end += dt.timedelta(days=1)
+        out["end"] = end.strftime(fmt)
+    elif old_start and old_end:
+        out["end"] = (start + (dt.datetime.strptime(old_end, fmt) - dt.datetime.strptime(old_start, fmt))).strftime(fmt)
+    return out
+
+
 def change(events: list, cmd: dict):
     """Apply an update/cancel/restore/remove command. Returns (events, id, action)."""
     action = cmd.pop("action")
@@ -178,20 +211,17 @@ def change(events: list, cmd: dict):
     cmd.pop("id", None)
     new = dict(target)
     if action == "update":
-        fields = {k: v for k, v in cmd.items() if k in build.FIELDS and v not in (None, "", [])}
-        # The change form sends a new date and/or times on their own: combine them
-        # with what the event already has.
+        # Only what the change form can send; blanks mean "no change".
+        fields = {k: cmd[k] for k in UPDATABLE if cmd.get(k) not in (None, "")}
+        for k, v in fields.items():
+            if not isinstance(v, str):
+                raise IngestError("%r must be text." % k)
+        if fields.get("registration_url"):
+            fields["registration_required"] = True
         date, t_start, t_end = (cmd.get(k) or None for k in ("date", "start_time", "end_time"))
         t_start, t_end = clock(t_start), clock(t_end)
         if date or t_start or t_end:
-            old_start, old_end = target.get("start") or "", target.get("end") or ""
-            d = date or old_start[:10]
-            if not re.match(r"^\d{4}-\d{2}-\d{2}$", d or ""):
-                raise IngestError("This event has no date yet: give the new date too.")
-            ts = t_start or old_start[11:16] or "00:00"
-            fields["start"] = "%sT%s" % (d, ts)
-            if t_end or old_end:
-                fields["end"] = "%sT%s" % (d, t_end or old_end[11:16])
+            fields.update(new_times(target, date, t_start, t_end))
         if not fields:
             raise IngestError("Nothing to change: fill in at least one field.")
         new.update(fields)

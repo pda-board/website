@@ -48,14 +48,12 @@ by hand. To add or change an event, either:
    python3 -m http.server               # preview at http://localhost:8000/
    ```
 
-2. **Open a GitHub issue with the label `new-event`** whose body contains one
-   event as a fenced ```` ```json ```` block (same fields as below; `id` may be
-   left out). The Action adds it (or updates the event with the same `id`),
-   builds, pushes, comments with the event link and closes the issue. If the
-   JSON is wrong it comments the error and leaves the issue open: edit the issue
-   body and it is processed again. The parser is `tools/site/ingest_issue.py`
-   and can be run locally on a file: `python3 tools/site/ingest_issue.py body.md`.
-   A Power Automate flow can create such issues through the GitHub connector.
+2. **Use the board forms** (see *Automation for the board*): the flows email a command to the
+   `[event-inbox]` issue and the `inbox` job applies it with `tools/site/ingest_issue.py`.
+   To try a command locally: `python3 tools/site/ingest_issue.py --events /tmp/events.json body.txt`
+   (body = the `PDA-EVENT-BEGIN … PDA-EVENT-END` block, or a fenced json block).
+   A new event never overwrites an existing one with the same page address; changes go through
+   the change form (only location, registration link, price, summary, details, date and times).
 
 The Action also runs daily, so events move from Upcoming to Past on their own.
 
