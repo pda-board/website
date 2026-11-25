@@ -161,6 +161,16 @@ def find_event(events: list, ref) -> dict:
     return hit[0]
 
 
+def clock(value):
+    """'18:30', '18.30', '1830' or '9:30' -> '18:30'/'09:30'; empty -> None."""
+    if value in (None, ""):
+        return None
+    m = re.match(r"^\s*(\d{1,2})[:.h]?(\d{2})\s*$", str(value))
+    if not m or int(m.group(1)) > 23 or int(m.group(2)) > 59:
+        raise IngestError("%r is not a time; write it like 18:30." % value)
+    return "%02d:%s" % (int(m.group(1)), m.group(2))
+
+
 def change(events: list, cmd: dict):
     """Apply an update/cancel/restore/remove command. Returns (events, id, action)."""
     action = cmd.pop("action")
@@ -172,6 +182,7 @@ def change(events: list, cmd: dict):
         # The change form sends a new date and/or times on their own: combine them
         # with what the event already has.
         date, t_start, t_end = (cmd.get(k) or None for k in ("date", "start_time", "end_time"))
+        t_start, t_end = clock(t_start), clock(t_end)
         if date or t_start or t_end:
             old_start, old_end = target.get("start") or "", target.get("end") or ""
             d = date or old_start[:10]
