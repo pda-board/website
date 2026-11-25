@@ -169,6 +169,18 @@ def change(events: list, cmd: dict):
     new = dict(target)
     if action == "update":
         fields = {k: v for k, v in cmd.items() if k in build.FIELDS and v not in (None, "", [])}
+        # The change form sends a new date and/or times on their own: combine them
+        # with what the event already has.
+        date, t_start, t_end = (cmd.get(k) or None for k in ("date", "start_time", "end_time"))
+        if date or t_start or t_end:
+            old_start, old_end = target.get("start") or "", target.get("end") or ""
+            d = date or old_start[:10]
+            if not re.match(r"^\d{4}-\d{2}-\d{2}$", d or ""):
+                raise IngestError("This event has no date yet: give the new date too.")
+            ts = t_start or old_start[11:16] or "00:00"
+            fields["start"] = "%sT%s" % (d, ts)
+            if t_end or old_end:
+                fields["end"] = "%sT%s" % (d, t_end or old_end[11:16])
         if not fields:
             raise IngestError("Nothing to change: fill in at least one field.")
         new.update(fields)
