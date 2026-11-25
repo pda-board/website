@@ -137,10 +137,24 @@ with Power Automate flows owned by the website maintainer:
 | Form (Board group in Forms) | Flow | What happens |
 |---|---|---|
 | **Join the TU/e Postdoc Association** (website "Join" button) | PDA - New member from Join form | Adds the person to `PDA contacts.xlsx` (Contacts) and sends the welcome email |
-| **New PDA event** | PDA - New event | Logs the event (Events sheet) and emails the submitter a **Publish on the website** button: it opens a pre-filled GitHub issue (log in as pda-board, press Create) and `events.yml` adds the event to the site. (TU/e's Power Automate policy blocks the GitHub connector, hence this one click.) If asked, it also emails a preview to the submitter, waits for their Approve, then emails all Active contacts in BCC batches of 400 |
-| **PDA newsletter** | PDA - Newsletter | Builds the newsletter from the intro text, optional news and the upcoming events in the Events sheet; preview → Approve → sent to all Active contacts |
+| **New PDA event** | PDA - New event | Logs the event (Events sheet), confirms to the submitter and publishes it on the site by itself (see below). "Put this event on the website? No, this is a test" stores it unpublished. Optional announcement email, see *Who gets the email* |
+| **PDA newsletter** | PDA - Newsletter | Builds the newsletter from the intro text, optional news and the upcoming events in the Events sheet; preview → Approve → sent, see *Who gets the email* |
+| **Change or cancel a PDA event** | PDA - Change or cancel event | Change details, cancel (page stays, marked Cancelled, calendars updated), remove from the site, or undo a cancellation/removal. Event = its page link or exact title. Confirms to the submitter; never emails members |
 
-The two board forms are also tabs ("Fill | New PDA event", "Fill | PDA newsletter") in the Board team's General channel.
+The board forms are restricted to the Board group and are also tabs in the Board team's General channel.
+
+**Automatic publishing.** The event and change flows email a plain-text command (base64 JSON between
+`PDA-EVENT-BEGIN`/`PDA-EVENT-END`) from `postdoc_association@tue.nl` to the reply-by-email address of the
+`[event-inbox]` issue. GitHub turns it into a comment by pda-board, and the `inbox` job in `events.yml`
+applies it (`tools/site/ingest_issue.py`), rebuilds, pushes, and pda-tue.nl deploys. Nothing to click.
+If a change does not show up, look at the latest comment on the `[event-inbox]` issue for the error.
+
+**Who gets the email.** Both emailing forms ask:
+*All PDA members* (after the submitter approves a preview), *The board only (test)*, or
+*Selected board members only (test)* with their addresses in the next question. Board addresses come from
+the Board team's member list; typed addresses match even when written as an alias (dots are ignored), and
+anything that is not a board member is dropped. Test sends get `[TEST]` in the subject and the approval
+title says who will receive it. The shared mailbox is always in To, so it also keeps a copy.
 
 All emails go out from `postdoc_association@tue.nl`. The workbook `PDA contacts.xlsx` lives in the
 Board team's Files (General). Its `Templates` sheet holds the email HTML the flows use; regenerate it with
