@@ -270,30 +270,5 @@
     },
     "published": true,
     "sequence": 0
-  },
-  {
-    "id": "test-please-ignore-cafe-quiz-2-2026",
-    "title": "TEST please ignore: Café <quiz> #2",
-    "type": "other",
-    "tags": [],
-    "start": "2026-12-20T12:00",
-    "end": null,
-    "date_label": null,
-    "time_label": null,
-    "location": "Nowhere (test)",
-    "location_url": null,
-    "summary": "Automated test of the website publishing, will be removed in a few minutes.",
-    "description": "",
-    "programme": [],
-    "registration_url": null,
-    "registration_required": false,
-    "price": "Free",
-    "image": null,
-    "flyer_pdf": null,
-    "external_url": null,
-    "featured": false,
-    "past_cta": null,
-    "published": true,
-    "sequence": 0
   }
 ]
