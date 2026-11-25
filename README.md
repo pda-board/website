@@ -157,13 +157,16 @@ also needs the event to be on the website; anything else falls back to the selec
 get `[TEST]` in the subject and the approval title says who will receive it. Approvals cannot be reassigned
 and expire after 3 days (nothing is sent). The shared mailbox is always in To, so it also keeps a copy.
 
-**When something goes wrong.** Publishing errors are posted as a comment on the `[event-inbox]` issue
-(GitHub notifies pda-board, i.e. the shared mailbox). Never close or lock that issue. A new event never
+**When something goes wrong.** Publishing errors are posted as a comment on the `[event-inbox]` issue.
+GitHub notifies pda-board (the shared mailbox), and the flow **PDA - Website errors to maintainer** forwards
+every GitHub email about `pda-board/website` (error comments, failed runs) to the maintainer,
+Giacomo D'Amicantonio (g.d.amicantonio@tue.nl). A new maintainer changes the To address in that flow. Never close or lock that issue. A new event never
 overwrites an existing one with the same page address (except a hidden test/removed one); changes go through
 the change form. If a flow run fails half-way through a mass email, do not resubmit it: check the run history.
 
 **Handing over to a new maintainer.** Everything runs as the maintainer's TU/e account. Before leaving:
-1. Add the successor as co-owner of the four flows (New event, Newsletter, Change or cancel, New member).
+1. Add the successor as co-owner of the five flows (New event, Newsletter, Change or cancel, New member,
+   Website errors to maintainer) and change the To address of the last one.
 2. Give them Send As / Full Access on `postdoc_association@tue.nl`.
 3. Re-create every connection (Forms, Excel, Approvals, Teams, Outlook, RSS) under their account and re-test.
 4. Hand over the pda-board GitHub password and 2FA recovery codes; its password reset goes to the shared mailbox.
