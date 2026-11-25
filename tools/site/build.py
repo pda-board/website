@@ -118,7 +118,11 @@ def parse_label(label: str):
 
 
 def is_rel_or_url(value) -> bool:
-    return isinstance(value, str) and value.strip() != "" and not value.lower().startswith("javascript:")
+    if not isinstance(value, str) or value.strip() == "":
+        return False
+    v = value.strip()
+    # relative links are fine; absolute ones only for web and email
+    return not SCHEME_RE.match(v) or re.match(r"(?i)^(https?:|mailto:)", v) is not None
 
 
 def validate(events) -> list:
@@ -895,7 +899,8 @@ def events_index(upcoming, past) -> str:
 # ---------------------------------------------------------------- ics
 
 def ics_escape(s: str) -> str:
-    return s.replace("\\", "\\\\").replace(";", "\\;").replace(",", "\\,").replace("\r\n", "\n").replace("\n", "\\n")
+    s = s.replace("\r\n", "\n").replace("\r", "\n")  # a bare CR must not start a new ICS line
+    return s.replace("\\", "\\\\").replace(";", "\\;").replace(",", "\\,").replace("\n", "\\n")
 
 
 def fold(line: str) -> str:

@@ -1,0 +1,12 @@
+# pda-tue.nl (Plesk). The whole repo is the web root, so hide what visitors never need.
+# Only deploy-hook.php may run PHP.
+<FilesMatch "\.(py|md|yml|yaml|pyc|txt|sh)$">
+    Require all denied
+</FilesMatch>
+<FilesMatch "\.php$">
+    Require all denied
+</FilesMatch>
+<Files "deploy-hook.php">
+    Require all granted
+</Files>
+RedirectMatch 404 ^/(tools|\.github)(/|$)

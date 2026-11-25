@@ -15,16 +15,17 @@
 
 header('Content-Type: text/plain; charset=utf-8');
 
-$configFile = dirname(__DIR__) . '/deploy-hook-config.php';
-if (!is_readable($configFile)) {
-    http_response_code(503);
-    exit("Deploy hook is not configured.\n");
-}
-$config = require $configFile;
-
 if ($_SERVER['REQUEST_METHOD'] !== 'POST') {
     http_response_code(405);
     exit("POST only.\n");
+}
+
+$configFile = dirname(__DIR__) . '/deploy-hook-config.php';
+$config = is_readable($configFile) ? require $configFile : null;
+if (!is_array($config) || !is_string($config['secret'] ?? null) || strlen($config['secret']) < 20
+        || !is_string($config['plesk_hook'] ?? null)) {
+    http_response_code(503);
+    exit("Unavailable.\n");
 }
 
 $payload = file_get_contents('php://input');

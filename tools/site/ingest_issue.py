@@ -47,7 +47,8 @@ def slugify(text: str) -> str:
 def event_year(ev: dict) -> str:
     if isinstance(ev.get("start"), str) and re.match(r"^\d{4}", ev["start"]):
         return ev["start"][:4]
-    m = re.search(r"\b(\d{4})\b", ev.get("date_label") or "")
+    label = ev.get("date_label")
+    m = re.search(r"\b(\d{4})\b", label) if isinstance(label, str) else None
     if m:
         return m.group(1)
     return str(dt.date.today().year)
@@ -80,6 +81,20 @@ def parse_body(body: str) -> dict:
     return ev
 
 
+def day(ev: dict):
+    s = ev.get("start")
+    return s[:10] if isinstance(s, str) and len(s) >= 10 else None
+
+
+def resolve_id(events: list, ev: dict) -> None:
+    """Two different events can share a title in the same year (a monthly
+    borrel, say). If an event with this id exists on ANOTHER day, this is a new
+    event: add the date to its id instead of overwriting the old one."""
+    old = next((e for e in events if e.get("id") == ev["id"]), None)
+    if old and day(ev) and day(old) and day(ev) != day(old):
+        ev["id"] = "%s-%s" % (ev["id"], day(ev)[5:].replace("-", ""))  # e.g. borrel-2026-1210
+
+
 def upsert(events: list, ev: dict):
     """Return (new_events, action). Keeps the schema field order."""
     for i, old in enumerate(events):
@@ -106,6 +121,7 @@ def ingest(body: str, events_path: Path):
         events = json.loads(events_path.read_text(encoding="utf-8"))
     except (OSError, json.JSONDecodeError) as exc:
         raise IngestError("Cannot read %s: %s" % (events_path, exc))
+    resolve_id(events, ev)
     new, action = upsert(events, ev)
     errors = build.validate(new)
     if errors:

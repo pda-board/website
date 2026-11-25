@@ -23,14 +23,13 @@ permissions:
   contents: write
   issues: write
 
-concurrency:
-  group: events-main
-  cancel-in-progress: false
-
 jobs:
   build:
     name: Build event pages
     if: github.event_name != 'issues' && github.actor != 'github-actions[bot]'
+    concurrency:
+      group: events-build
+      cancel-in-progress: true
     runs-on: ubuntu-latest
     steps:
       - uses: actions/checkout@v4
@@ -60,8 +59,15 @@ jobs:
       github.event_name == 'issues' &&
       github.event.issue.state == 'open' &&
       (contains(github.event.issue.labels.*.name, 'new-event') ||
-       (startsWith(github.event.issue.title, '[new-event]') &&
-        contains(fromJSON('["pda-board"]'), github.event.issue.user.login)))
+       startsWith(github.event.issue.title, '[new-event]')) &&
+      (github.event.issue.user.login == 'pda-board' ||
+       contains(fromJSON('["OWNER","MEMBER","COLLABORATOR"]'), github.event.issue.author_association)) &&
+      (github.event.sender.login == 'pda-board' ||
+       github.event.sender.login == github.event.issue.user.login)
+    # One ingest at a time, per issue: a queued run for another issue is never cancelled.
+    concurrency:
+      group: events-ingest-${{ github.event.issue.number }}
+      cancel-in-progress: false
     runs-on: ubuntu-latest
     env:
       GH_TOKEN: ${{ github.token }}
@@ -82,7 +88,8 @@ jobs:
         run: |
           hash=$(printf '%s' "$ISSUE_BODY" | sha256sum | cut -c1-16)
           echo "hash=$hash" >> "$GITHUB_OUTPUT"
-          if gh api "repos/${GITHUB_REPOSITORY}/issues/${ISSUE_NUMBER}/comments" --paginate --jq '.[].body' \
+          if gh api "repos/${GITHUB_REPOSITORY}/issues/${ISSUE_NUMBER}/comments" --paginate \
+              --jq '.[] | select(.user.login == "github-actions[bot]") | .body' \
               | grep -q "pda-events-bot:$hash"; then
             echo "skip=true" >> "$GITHUB_OUTPUT"
           else
@@ -155,3 +162,9 @@ jobs:
           } > "$RUNNER_TEMP/comment.md"
           gh issue comment "$ISSUE_NUMBER" --repo "$GITHUB_REPOSITORY" --body-file "$RUNNER_TEMP/comment.md"
           gh issue close "$ISSUE_NUMBER" --repo "$GITHUB_REPOSITORY" --reason completed
+
+      - name: Tell the submitter something went wrong
+        if: (failure() || cancelled()) && steps.ingest.outcome != 'failure'
+        run: |
+          gh issue comment "$ISSUE_NUMBER" --repo "$GITHUB_REPOSITORY" --body \
+            "Something went wrong while adding this event (see the Actions tab). Nothing was published yet. Ask the website maintainer, or close this issue and submit the form again."
